@@ -416,10 +416,6 @@ function usuariosDAO(connection){
 		}
 		conn.query(sql, callback);
 	}
-
-
-	
-
 }
 
 

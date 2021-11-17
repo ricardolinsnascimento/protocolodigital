@@ -60,6 +60,7 @@ module.exports.autenticar = function(application, req, res){
 		
 		var connection = application.config.dbConnection();
 		var usuariosModel = new usuariosDAO(connection);
+
 		usuariosModel.listaEscolas(req.session.id_usuario, function(error,result){
 			connection.end();
 			if(error){
@@ -79,7 +80,9 @@ module.exports.autenticar = function(application, req, res){
 			res.render("login", {validacao:erros, msg:{}});
 			return;
 		}
+		
 		var connection = application.config.dbConnection();
+
 		var usuariosModel = new usuariosDAO(connection);
 		
 		usuariosModel.autenticar(dadosForm, function(error,result){
@@ -170,7 +173,7 @@ module.exports.gravarCadastro = function(application, req, res){
 			if (result.length > 0){
 				connection.end();
 				var erros = [{
-					msg: "O E-mail informado já está cadastrados"
+					msg: "O E-mail informado já está cadastrados "
 				}];
 				res.render('index', {email: email, validacao: erros, dadosForm: dadosForm});
 			}else{
