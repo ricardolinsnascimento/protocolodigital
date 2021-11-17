@@ -419,6 +419,4 @@ function usuariosDAO(connection){
 }
 
 
-module.exports = function(){
-	return usuariosDAO;
-}
+module.exports = usuariosDAO;

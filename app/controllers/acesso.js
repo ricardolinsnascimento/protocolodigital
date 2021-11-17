@@ -1,4 +1,4 @@
-const usuariosDAO = require('../models/usuariosDAO');
+const usuariosDAO = require('../models/usuariosDAO.js');
 
 module.exports.index = function(application, req, res){	
 	if (req.session.autorizado){
@@ -83,8 +83,10 @@ module.exports.autenticar = function(application, req, res){
 		
 		var connection = application.config.dbConnection();
 
-		var usuariosModel = new usuariosDAO(connection);
+		const usuariosModel = new usuariosDAO(connection);
+
 		
+
 		usuariosModel.autenticar(dadosForm, function(error,result){
 			if(error){
 				connection.end();
