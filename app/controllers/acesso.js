@@ -1,3 +1,5 @@
+const usuariosDAO = require('../models/usuariosDAO');
+
 module.exports.index = function(application, req, res){	
 	if (req.session.autorizado){
 		var email = req.session.email_usuario;		
@@ -17,7 +19,7 @@ module.exports.painel = function(application, req, res){
 		var id_escola = req.session.id_escola;
 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.listaEscolas(req.session.id_usuario, function(error,result){
 			connection.end();
@@ -57,7 +59,7 @@ module.exports.autenticar = function(application, req, res){
 		var status = req.session.status_usuario;
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		usuariosModel.listaEscolas(req.session.id_usuario, function(error,result){
 			connection.end();
 			if(error){
@@ -78,7 +80,7 @@ module.exports.autenticar = function(application, req, res){
 			return;
 		}
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		
 		usuariosModel.autenticar(dadosForm, function(error,result){
 			if(error){
@@ -155,7 +157,7 @@ module.exports.gravarCadastro = function(application, req, res){
 	}
 
 	var connection = application.config.dbConnection();
-	var usuariosModel = new application.app.models.usuariosDAO(connection);
+	var usuariosModel = new usuariosDAO(connection);
 
 	usuariosModel.verificaCadastro(dadosForm, function(error, result){
 		if (error){
@@ -238,7 +240,7 @@ module.exports.mudaSenha = function(application, req, res){
 	}
 
 	var connection = application.config.dbConnection();
-	var usuariosModel = new application.app.models.usuariosDAO(connection);	
+	var usuariosModel = new usuariosDAO(connection);	
 	dadosForm.token = "interno";
 	usuariosModel.atualizaToken(dadosForm, function(error,result){
 		connection.end();
@@ -265,7 +267,7 @@ module.exports.atualizaSenha = function(application, req, res){
 	const now = new Date();	
 	dadosForm.hora = now;
 	var connection = application.config.dbConnection();
-	var usuariosModel = new application.app.models.usuariosDAO(connection);	
+	var usuariosModel = new usuariosDAO(connection);	
 
 	var data = new Date();
 	var moment = require('moment');
@@ -332,7 +334,7 @@ module.exports.atualizarCadastro = function(application, req, res){
 	if (req.session.autorizado){
 		var email_usuario = req.session.email_usuario;	
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		usuariosModel.retornaUsuarioporEmail(email_usuario, function(error,result){
 			connection.end();
 			if (error){
@@ -371,7 +373,7 @@ module.exports.salvaAtualizacao = function(application, req, res){
 	}
 
 	var connection = application.config.dbConnection();
-	var usuariosModel = new application.app.models.usuariosDAO(connection);
+	var usuariosModel = new usuariosDAO(connection);
 
 	usuariosModel.salvaAtualizacao(dadosForm, function(error, result){
 		connection.end();

@@ -1,9 +1,13 @@
+const usuariosDAO = require('../models/usuariosDAO');
+const administracaoDAO = require('../models/administracaoDAO');
+
+
 module.exports.usuarios = function(application, req, res){	
 	if (req.session.autorizado){
         
         if (req.session.perfil == "Administrador"){
             var connection = application.config.dbConnection();
-            var usuariosModel = new application.app.models.usuariosDAO(connection);
+            var usuariosModel = new usuariosDAO(connection);
             usuariosModel.getUsuarios(function(error,result){
                 connection.end();
 
@@ -30,7 +34,7 @@ module.exports.buscaUsuario = function(application, req, res){
         if (req.session.perfil == "Administrador"){
             var pesquisa = req.query.nome_usuario;            
             var connection = application.config.dbConnection();
-            var usuariosModel = new application.app.models.usuariosDAO(connection);
+            var usuariosModel = new usuariosDAO(connection);
             var perfil = req.session.perfil;
             usuariosModel.buscaUsuario(pesquisa, function(error,result){
                 connection.end();
@@ -60,7 +64,7 @@ module.exports.autorizarUsuario = function(application, req, res){
         if (req.session.perfil == "Administrador"){
             var id = req.query.id_usuario;
             var connection = application.config.dbConnection();
-            var usuariosModel = new application.app.models.usuariosDAO(connection);
+            var usuariosModel = new usuariosDAO(connection);
             var perfil = req.session.perfil;
             usuariosModel.autorizaUsuario(id, function(error,result){
                 connection.end();
@@ -89,7 +93,7 @@ module.exports.suspendeUsuario = function(application, req, res){
         if (req.session.perfil == "Administrador"){
             var id = req.query.id_usuario;
             var connection = application.config.dbConnection();
-            var usuariosModel = new application.app.models.usuariosDAO(connection);
+            var usuariosModel = new usuariosDAO(connection);
             var perfil = req.session.perfil;
             usuariosModel.suspendeUsuario(id, function(error,result){
                 connection.end();
@@ -118,7 +122,7 @@ module.exports.reativaUsuario = function(application, req, res){
         if (req.session.perfil == "Administrador"){
             var id = req.query.id_usuario;
             var connection = application.config.dbConnection();
-            var usuariosModel = new application.app.models.usuariosDAO(connection);
+            var usuariosModel = new usuariosDAO(connection);
             var perfil = req.session.perfil;
             usuariosModel.reativaUsuario(id, function(error,result){
                 connection.end();
@@ -149,7 +153,7 @@ module.exports.logUsuarios = function(application, req, res){
             var pesquisa = req.query;
 
             var connection = application.config.dbConnection();
-            var administracaoModel = new application.app.models.usuariosDAO(connection);
+            var administracaoModel = new usuariosDAO(connection);
             
             administracaoModel.logUsuarios(pesquisa,  function(error, result){	
                 connection.end();

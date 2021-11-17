@@ -1,3 +1,6 @@
+const avaliacaoDAO = require('../models/avaliacaoDAO');
+const usuariosDAO = require('../models/usuariosDAO');
+
 const avaliacao = require('../routes/avaliacao');
 
 module.exports.incluiEscola = function(application, req, res){	
@@ -16,7 +19,7 @@ module.exports.escolas = function(application, req, res){
 		var pesquisa = {nome_escola:nome_escola}
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		usuariosModel.getEscolas(pesquisa, req.session.perfil, req.session.id_usuario, function(error, result){
 			if(error){
 				connection.end();		
@@ -43,7 +46,7 @@ module.exports.buscaEscola = function(application, req, res){
 		var pesquisa = {nome_escola:nome_escola}
 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		usuariosModel.getEscolas(pesquisa, req.session.perfil, req.session.id_usuario, function(error, result){
 			if(error){
 				connection.end();		
@@ -78,7 +81,7 @@ module.exports.salvaEscola = function(application, req, res){
 		}
 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaEscola(dadosForm, function(error, result){
 			if (error){
@@ -142,7 +145,7 @@ module.exports.avaliacoes = function(application, req, res){
 		var perfil = req.session.perfil; 
 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.avaliacoes(id_usuario, id_escola,  function(error, result){	
 			if(error){				
@@ -171,7 +174,7 @@ module.exports.incluiAvaliacao = function(application, req, res){
 	if (req.session.autorizado){            
 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		var id_escola = req.query.id_escola;	
 		var moment = require('moment');
         var data =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
@@ -222,7 +225,7 @@ module.exports.editaEscola = function(application, req, res){
 		var pesquisa = {nome_escola:nome_escola}
 	
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.editaEscola(dadosForm,  function(error, result){			
 			if (error){		
@@ -259,7 +262,7 @@ module.exports.excluirEscola = function(application, req, res){
 		var pesquisa = {nome_escola:nome_escola}
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		//Verifica se tem avaliacoes vinculadas a escola
 
@@ -319,7 +322,7 @@ module.exports.abreAvaliacao = function(application, req, res){
 		var id_avaliacao = req.query.id_avaliacao;
 		var perfil = req.session.perfil; 
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		
 		usuariosModel.abreAvaliacao(id_avaliacao,  function(error, result){	
 			if(error){		
@@ -382,7 +385,7 @@ module.exports.gravaPontos = function(application, req, res){
 		//console.log(dados)
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		
 		usuariosModel.verificaPontos(dados,  function(error, result){	
 			if(error){		
@@ -429,7 +432,7 @@ module.exports.atualizaTotal = function(application, req, res){
 		//console.log(dados);
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.somaTotal(dados, function(error,result){
 			if(error){			
@@ -490,95 +493,6 @@ module.exports.atualizaTotal = function(application, req, res){
 	}
 }
 
-/*
-module.exports.abreTabela = function(application, req, res, retorno){
-	if (req.session.autorizado){	
-
-		var dados = req.query; 
-
-		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
-
-		usuariosModel.abreTabela(dados, function(error,result){
-			//
-			
-			if(error){															
-				console.log(error)	
-				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
-			}else{				
-				var registros = result;
-				if (registros.length > 0){					
-					for (var i = 0; i<registros.length; i++){
-
-						var dados = registros[i];
-						var total = retorno[0].total;
-						var media = dados.vale * dados.pontos / total;
-
-						var connection = application.config.dbConnection();
-						var usuariosModel = new application.app.models.usuariosDAO(connection);
-						
-						usuariosModel.atualizaMedia(dados, media, function(error,result){													
-							if(error){		
-								console.log(error)	
-								res.send("O sistema está indisponível no momento. tente novamente mais tarde")
-							}else{
-								//connection.end();	
-								application.app.controllers.avaliacao.atualizaMedia(application, req, res, retorno);	
-							}
-						})
-						
-					}
-				}
-				
-
-			}
-		})
-
-	}else{
-		res.render("index", {validacao:{}, dadosForm:{},  email:{}});	
-	}
-}
-*/
-
-/*
-
-module.exports.atualizaMedia = function(application, req, res, retorno, registro){		
-	if (req.session.autorizado){
-		
-		//console.log("Entrou no atualizaMedia")
-		var dados = req.query;
-		
-		
-		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
-
-		
-		usuariosModel.somaMediaTotal(dados, function(error,result){
-			if(error){			
-				connection.end();	
-				console.log(error)				
-				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
-			}else{
-				var media_total = result[0].media_total;
-				usuariosModel.atualizaMediaTotal(dados, media_total,  function(error,result){
-					connection.end();	
-					if(error){											
-						console.log(error)		
-						res.send("O sistema está indisponível no momento. tente novamente mais tarde")
-					}else{
-						res.send()									
-					}
-				})
-
-			}
-
-		})				
-			
-	}else{
-		res.render("index", {validacao:{}, dadosForm:{},  email:{}});	
-	}
-}
-*/
 
 module.exports.carregaPontos = function(application, req, res){		
 	if (req.session.autorizado){
@@ -586,7 +500,7 @@ module.exports.carregaPontos = function(application, req, res){
 		var id_avaliacao = req.query.id_avaliacao;		
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaPontos(id_avaliacao, function(error,result){
 			connection.end();
@@ -609,7 +523,7 @@ module.exports.carregaPontosTotal = function(application, req, res){
 		var id_avaliacao = req.query.id_avaliacao;		
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaPontosTotal(id_avaliacao, function(error,result){
 			connection.end();		
@@ -632,7 +546,7 @@ module.exports.gravaEspelhoEscada = function(application, req, res){
 		//console.log(dados)
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaEspelhoEscada(dados, function(error,result){
 			if(error){			
@@ -676,7 +590,7 @@ module.exports.carregaEspelhoEscada = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaEspelhoEscada(id_avaliacao, function(error,result){
 			connection.end();	
@@ -699,7 +613,7 @@ module.exports.gravaCorrimao = function(application, req, res){
 		//console.log(dados)
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaCorrimao(dados, function(error,result){
 			if(error){			
@@ -743,7 +657,7 @@ module.exports.carregaCorrimao = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaCorrimao(id_avaliacao, function(error,result){
 			connection.end();			
@@ -810,7 +724,7 @@ module.exports.carregaRampa = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaRampa(id_avaliacao, function(error,result){
 			connection.end();
@@ -833,7 +747,7 @@ module.exports.gravaCorrimaoRampa = function(application, req, res){
 		//console.log(dados)
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaCorrimaoRampa(dados, function(error,result){
 			if(error){			
@@ -877,7 +791,7 @@ module.exports.carregaCorrimaoRampa = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaCorrimaoRampa(id_avaliacao, function(error,result){
 			connection.end();		
@@ -901,7 +815,7 @@ module.exports.gravaPorta = function(application, req, res){
 		//console.log(dados)
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaPorta(dados, function(error,result){
 			if(error){			
@@ -946,7 +860,7 @@ module.exports.gravaBarras = function(application, req, res){
 		//console.log(dados)
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaBarras(dados, function(error,result){
 			if(error){			
@@ -991,7 +905,7 @@ module.exports.carregaPorta = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaPorta(id_avaliacao, function(error,result){
 			connection.end();
@@ -1013,7 +927,7 @@ module.exports.carregaBarras = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaBarras(id_avaliacao, function(error,result){
 			connection.end();
@@ -1036,7 +950,7 @@ module.exports.gravaBalcao = function(application, req, res){
 		//console.log(dados)
 		
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.verificaBalcao(dados, function(error,result){
 			if(error){			
@@ -1080,7 +994,7 @@ module.exports.carregaBalcao = function(application, req, res){
 		
 		var id_avaliacao = req.query.id_avaliacao;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.carregaBalcao(id_avaliacao, function(error,result){
 			connection.end();
@@ -1103,7 +1017,7 @@ module.exports.excluiCorrimao = function(application, req, res){
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.excluiCorrimao(registro, function(error,result){
 			connection.end();
@@ -1125,7 +1039,7 @@ module.exports.excluiCorrimaoRampa = function(application, req, res){
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.excluiCorrimaoRampa(registro, function(error,result){
 			connection.end();
@@ -1147,7 +1061,7 @@ module.exports.excluiEspelhoEscada = function(application, req, res){
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.excluiEspelhoEscada(registro, function(error,result){
 			connection.end();
@@ -1170,7 +1084,7 @@ module.exports.excluiRampa = function(application, req, res){
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.excluiRampa(registro, function(error,result){
 			connection.end();
@@ -1192,7 +1106,7 @@ module.exports.zeraPontosCorrimao = function(application, req, res){
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 
 		usuariosModel.zeraPontosCorrimao(registro, function(error,result){
 			connection.end();
@@ -1215,7 +1129,7 @@ module.exports.tabelaMudancaNiveis = function(application, req, res){
 		var registro = req.query;	
 		//console.log(registro)			
 		var connection = application.config.dbConnection();
-		var usuariosModel = new application.app.models.usuariosDAO(connection);
+		var usuariosModel = new usuariosDAO(connection);
 		var degraus;
 		var rampas;
 		var escadas;
