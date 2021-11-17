@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no"> 
+    <title>Protocolo Digital </title>
+
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+     <!--<script src="js/popper.min.js"> </script>-->
+     <script src="js/bootstrap.min.js"> </script>
+
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+
+    <script>
+
+      /* Verifica mudanças no Scroll e salva no localStorage a posição */
+      window.onscroll = function (e) {
+          posicao = window.scrollY;         
+          localStorage.setItem('posicaoScrollUsuarios', JSON.stringify(posicao));
+          
+      }
+      
+      $(document).ready(function(){       
+        var zero = 0;
+        var posicao = localStorage.getItem('posicaoScrollUsuarios');
+        /* Se existir uma opção salva seta o scroll nela */
+        if(posicao) {
+            /* Timeout necessário para funcionar no Chrome */
+            setTimeout(function() {
+                window.scrollTo(0, posicao);
+            }, 1);
+        }
+      });
+      
+      function buscaUsuario(){          
+        url="/buscaUsuario?nome_usuario="+document.getElementById("txtBusca").value;
+        window.location=url; 
+      }
+
+      function logUsuario(indice, id_usuario){
+        url="/logUsuario?id_usuario="+id_usuario;
+        window.location=url;
+      }
+
+      function logUsuarios(){
+        url="/logUsuario?id_usuario=";
+        window.location=url;
+      }
+
+      function dadosPessoais(nome, cidade, bairro, endereco, numero, complemento, telefone, email, foto){       
+       var link_foto = "nada";
+       
+         //função para retornar a foto do usuario
+        $.ajax({
+                url: '/linkFoto?email_usurio='+email+"&foto_usuario=" + foto,
+                type: 'GET',
+                dataType:'json',   
+                error: function (request, status, error) {
+                  
+                },                
+                success: function(obj) {                  
+                  
+                  document.getElementById("foto_usuario").src = obj[0].url;
+                },
+                complete: function(retorno) {   
+                          
+                  //console.log(retorno); 
+                  
+                }                
+              });
+        
+      
+				
+       
+        document.getElementById("nome_usuario").innerHTML = nome;
+        document.getElementById("cidade_usuario").innerHTML = cidade;
+        document.getElementById("bairro_usuario").innerHTML = bairro;
+        document.getElementById("endereco_usuario").innerHTML = endereco;
+        document.getElementById("numero_usuario").innerHTML = numero;
+        document.getElementById("complemento_usuario").innerHTML = complemento;
+        document.getElementById("telefone_usuario").innerHTML = telefone;
+        $('#modalDadosPessoais').modal('show');
+      }
+
+      function dadosProfissionais(titulo, orgao, registro){                    
+        document.getElementById("titulo_usuario").innerHTML = titulo;
+        document.getElementById("orgao_usuario").innerHTML = orgao;
+        document.getElementById("registro_usuario").innerHTML = registro;        
+        $('#modalDadosProfissionais').modal('show');
+      }
+
+      function autorizaUsuario(indice, cpf, nome){
+        $("#modal_confirmar_alteracao_body").html('<h5> Confirma autorização do perfil do Usuário <b>' + nome +'</b> ?  </h5>');          
+          $("#modal_confirmar_alteracao_alterar").click(function (e) {              
+            $('#modal_confirmar_alteracao').modal('hide'); 
+              $.ajax({
+                url: '/autorizarUsuario?cpf_usuario='+cpf,
+                type: 'GET',
+                dataType:'json',   
+                error: function (request, status, error) {
+                   alert(request.responseText);    
+                  $("#modal_alerta_body").html('<h5> <font color="red"> Ocorreu um erro no servidor </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                },                
+                success: function(_user) {
+                  //alert(JSON.stringify(_user));
+                  $("#modal_alerta_body").html('<h5> <font color="green"> Usuário autorizado com sucesso </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                  var element = document.getElementById("btn_Suspender" + indice);
+                  element.disabled = true;
+                  document.getElementById("perfil"+indice).innerHTML = "Usuário <br> <strong> autorizado </strong>"
+
+                },
+                complete: function(retorno) {             
+                  //console.log(retorno); 
+                  
+                }                
+              });
+
+            });
+           $('#modal_confirmar_alteracao').modal('show');
+      }
+      function suspendeUsuario(indice, id, nome){
+        $("#modal_confirmar_alteracao_body").html('<h5> Confirma a suspensão do perfil do Usuário <b>' + nome +'</b> ?  </h5>');          
+          $("#modal_confirmar_alteracao_alterar").click(function (e) {              
+            $('#modal_confirmar_alteracao').modal('hide'); 
+              $.ajax({
+                url: '/suspendeUsuario?id_usuario='+id,
+                type: 'GET',
+                dataType:'json',   
+                error: function (request, status, error) {
+                   alert(request.responseText);    
+                  $("#modal_alerta_body").html('<h5> <font color="red"> Ocorreu um erro no servidor </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                },                
+                success: function(_user) {
+                  //alert(JSON.stringify(_user));
+                  $("#modal_alerta_body").html('<h5> <font color="green"> Usuário suspenso com sucesso </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                  var element = document.getElementById("btn_Autorizar" + indice);
+                  element.disabled = true;
+                  document.getElementById("perfil"+indice).innerHTML = "Usuário <br> <strong> suspenso </strong>"
+
+                },
+                complete: function(retorno) {             
+                  //console.log(retorno); 
+                  
+                }                
+              });
+
+            });
+           $('#modal_confirmar_alteracao').modal('show');
+      }
+
+      function reativaUsuario(indice, id, nome){
+        $("#modal_confirmar_alteracao_body").html('<h5> Confirma a reativação do perfil do Usuário <b>' + nome +'</b> ?  </h5>');          
+          $("#modal_confirmar_alteracao_alterar").click(function (e) {              
+            $('#modal_confirmar_alteracao').modal('hide'); 
+              $.ajax({
+                url: '/reativaUsuario?id_usuario='+id,
+                type: 'GET',
+                dataType:'json',   
+                error: function (request, status, error) {
+                   alert(request.responseText);    
+                  $("#modal_alerta_body").html('<h5> <font color="red"> Ocorreu um erro no servidor </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                },                
+                success: function(_user) {
+                  //alert(JSON.stringify(_user));
+                  $("#modal_alerta_body").html('<h5> <font color="green"> Usuário reativado com sucesso </font> </h5>');
+                  $('#modal_alerta').modal('show');
+                  var element = document.getElementById("btn_Autorizar" + indice);
+                  element.disabled = true;
+                  document.getElementById("perfil"+indice).innerHTML = "Usuário <br> <strong> reativado </strong>"
+
+                },
+                complete: function(retorno) {             
+                  //console.log(retorno); 
+                  
+                }                
+              });
+
+            });
+           $('#modal_confirmar_alteracao').modal('show');
+      }
+
+    </script>
+
+  </head>
+  
+
+  
+  <body id="page-top">  
+    <!--Inclui o menu-->
+    <%- include('partials/header_full.ejs') %>
+
+    <header class="cadastro">
+      <div class="container">
+        <div class="intro-text">       
+
+          <%if (msg.length > 0) {%>
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <%=msg%>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <%}%>
+
+        
+        
+          <br>    
+          <div class="intro-lead-in">Gerenciar usuários</div>
+          <br>          
+          
+        </div>
+      </div>
+    </header>
+
+    <!--Início da main-->
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class = "col-lg-6 col-sm-12">
+            <form>
+                <div class="input-group">
+                    <input class="form-control bg-light" type="text" name="login" id="txtBusca"  placeholder="Digite o nome do usuário que deseja pesquisar e clique no botão Buscar"  data-placement="bottom"  />
+                    <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button"  onclick="buscaUsuario()"  data-toggle="tooltip" data-placement="bottom" > <i class="fas fa-search"></i>   Buscar </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+
+          <div class = "col-lg-4 col-sm-12">          
+              
+            <div  id= "alerta"  class="alert alert-dark  small" role="alert">
+                <%if(usuarios.length == 0) { %>
+                <h6 id="mensagem"> Nenhum usuário localizado. Refaça sua busca </h6>      
+                <%}else if (usuarios.length == 1) {%>
+                <h6 id="mensagem"> 1 usuário localizado </h6>      
+                <%}else{%>
+                <h6 id="mensagem"> <%=usuarios.length%> &nbsp usuários localizados  </h6>      
+                <%}%>
+            </div>
+                
+          </div>
+
+          <div class = "col-lg-2 col-sm-12">
+            <form>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button"  onclick="logUsuarios()"  data-toggle="tooltip" data-placement="bottom" > <i class="fas fa-history"></i>   Ver logs  </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+
+
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-responsive table-hover table-sm">  
+              <thead>
+                <tr>                                
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>                    
+                    <th scope="col">Data Cad.</th>
+                    <th scope="col">Estado</th> 
+                    <th scope="col">Cidade</th> 
+                    <th scope="col">Telefone</th> 
+                    <th scope="col">Interesse</th>                     
+                    <th scope="col">Perfil/Status</th>   
+                    <th scope="col"></th> 
+                    <th scope="col"></th> 
+
+                </tr>
+              </thead>
+
+              <tbody>             
+                <% for (var i=0; i < usuarios.length; i++) {%>
+                  <% if (usuarios[i].status_usuario == 'suspenso') { %>
+                    <tr id="linha<%=i%>" class="text-danger">
+                  <%}else{%>
+                    <tr id="linha<%=i%>">
+                  <%}%>
+                  <td id = "nome_usuario<%=i%>" scope="row"> <%=usuarios[i].nome_usuario%> </td>
+                  <td id = "email_usuario<%=i%>" scope="row"> <%=usuarios[i].email_usuario%> </td>                  
+                  <td id = "data_cadastro<%=i%>" scope="row"> <%=usuarios[i].data_cadastro.getDate()%>/<%=usuarios[i].data_cadastro.getMonth()+1%>/<%=usuarios[i].data_cadastro.getFullYear()%> </td>
+                  <td id = "estado<%=i%>" scope="row"> <%=usuarios[i].estado_usuario%> </td>      
+                  <td id = "cidade<%=i%>" scope="row"> <%=usuarios[i].cidade_usuario%> </td>      
+                  <td id = "telefone<%=i%>" scope="row"> <%=usuarios[i].telefone_usuario%> </td>  
+                  <td id = "interesse<%=i%>" scope="row"> <%=usuarios[i].interesse_usuario%> </td>      
+
+                      
+                  
+                  <%if (usuarios[i].perfil == "Administrador") {%>
+                    <td id = "perfil<%=i%>" scope="row"> Administrador <br> <strong><%=usuarios[i].status_usuario%></strong> </td>                        
+                <%}else{%>
+                    <td id = "perfil<%=i%>" scope="row"> Usuário <br> <strong><%=usuarios[i].status_usuario%></strong> </td>
+                <%}%>
+              
+
+                <!--
+                <td>
+                    <%if(usuarios[i].status_usuario != 'autorizado' && usuarios[i].status_usuario != 'suspenso' && usuarios[i].perfil != 'Administrador') {%>
+                        <button id = "btn_Autorizar<%=i%>" type = "button" class= "alterar btn btn-success btn-block" id="btn_Alterar" name = "btn_Alterar" onclick = "autorizaUsuario(<%=i%>,'<%=usuarios[i].cpf_usuario%>', '<%=usuarios[i].nome_usuario%>')"  data-toggle="tooltip"  title="Autorizar o perfil do usuário <%=usuarios[i].nome_usuario%>">
+                    <%}else{%>
+                        <button id = "btn_Autorizar<%=i%>" type = "button" disabled = "disabled" class= "alterar btn btn-dark btn-block" id="btn_Alterar" name = "btn_Alterar" onclick = "autorizaUsuario(<%=i%>,'<%=usuarios[i].cpf_usuario%>','<%=usuarios[i].nome_usuario%>')"  data-toggle="tooltip"  title="Autorizar o perfil do usuário <%=usuarios[i].nome_usuario%>">
+                    <%}%>
+                    <i class="fas fa-check"></i>                                    
+                    </button>
+                </td>
+
+                -->
+                
+                <td>
+                  <%if(usuarios[i].perfil == 'Administrador' ) {%>
+                    <button disabled = "disabled"  id = "btn_Suspender<%=i%>" name = "btn_Suspender<%=i%>" type = "button" class= "suspender btn btn-danger btn-block"  onclick = "suspendeUsuario(<%=i%>, '<%=usuarios[i].id_usuario%>', '<%=usuarios[i].nome_usuario%>')"   data-toggle="tooltip"  title="Suspender o usuário <%=usuarios[i].nome_usuario%>" >
+                      <i id="icone_botao<%=i%>" class="fas fa-ban"></i>                             
+                    </button>
+                  <%}else{%>
+                    <%if(usuarios[i].status_usuario != 'suspenso' ) {%>
+                        <button id = "btn_Suspender<%=i%>" name = "btn_Suspender<%=i%>" type = "button" class= "suspender btn btn-danger btn-block"  onclick = "suspendeUsuario(<%=i%>, '<%=usuarios[i].id_usuario%>', '<%=usuarios[i].nome_usuario%>')"   data-toggle="tooltip"  title="Suspender o usuário <%=usuarios[i].nome_usuario%>" >
+                        <i id="icone_botao<%=i%>" class="fas fa-ban"></i>                             
+                        </button>
+                    <%}else{%>
+                        <button id = "btn_Suspender<%=i%>" name = "btn_Suspender<%=i%>"  type = "button" class= "reativar btn btn-success btn-block"  onclick = "reativaUsuario(<%=i%>, '<%=usuarios[i].id_usuario%>',  '<%=usuarios[i].nome_usuario%>')"   data-toggle="tooltip"  title="Reativar o usuário <%=usuarios[i].nome_usuario%>" >
+                        <i id="icone_botao<%=i%>" class="fas fa-thumbs-up"></i>                             
+                        </button>
+                    <%}%>
+                  <%}%>
+                </td> 
+
+                <td>
+                  <button id = "btn_logs<%=i%>" name = "btn_logs<%=i%>"  type = "button" class=  "btn btn-primary"  onclick = "logUsuario(<%=i%>, '<%=usuarios[i].id_usuario%>')"   data-toggle="tooltip"  title="Logs do usuário <%=usuarios[i].nome_usuario%>" >
+                    <i class="fas fa-history"></i>                             
+                    </button>
+
+                </td>  
+                
+              </tr>
+
+                <%}%>
+
+
+              </tbody>
+
+
+            </table>
+          </div>
+        </div>
+      </div>
+     
+    </main>
+
+
+    <!-- área para os modals -->
+    
+     <!-- Inicio Modal Dados Pessoais -->
+     <div class="modal fade" name = "modalDadosPessoais" id="modalDadosPessoais" tabindex="-1" role="dialog" aria-labelledby="Dados Pessoais" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary ">
+            <h5 class="modal-title" id="exampleModalLabel"> Dados Pessoais  </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>            
+          </div>
+          <div class="modal-body">       
+            <p id="nome_usuario"> </p>   
+            
+            <img id = "foto_usuario" src = "" width="100" height="100" class="d-inline-block align-top">             
+            <table class="table table-responsive table-hover table-sm">  
+              <thead>
+                <tr>                                
+                  <th scope="col">Cidade:</th>
+                  <td scope="col" id="cidade_usuario"></td>
+                </tr>  
+                <tr>
+                  <th scope="col">Bairro:</th>
+                  <td scope="col" id="bairro_usuario"></td>
+                </tr>    
+                <tr>
+                  <th scope="col">Endereço:</th>
+                  <td scope="col" id="endereco_usuario"></td>
+                </tr>     
+                <tr>
+                  <th scope="col">Número:</th>
+                  <td scope="col" id="numero_usuario"></td>
+                </tr>              
+                <tr>
+                  <th scope="col">Complemento:</th>
+                  <td scope="col" id="complemento_usuario"></td>
+                </tr>  
+                <tr>
+                  <th scope="col">Telefone:</th>
+                  <td scope="col" id="telefone_usuario"></td>
+                </tr>  
+              </thead>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" >Fechar</button>           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fim do modal Dados Pessoais-->
+
+    <!-- Inicio Modal Dados Profissionais -->
+    <div class="modal fade" name = "modalDadosProfissionais" id="modalDadosProfissionais" tabindex="-1" role="dialog" aria-labelledby="Dados Pessoais" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary ">
+            <h5 class="modal-title" id="exampleModalLabel"> Dados Profissionais  </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>            
+          </div>
+          <div class="modal-body">       
+            <p id="nome_usuario"> </p>              
+            <table class="table table-responsive table-hover table-sm">  
+              <thead>
+                <tr>                                
+                  <th scope="col">Titulo:</th>
+                  <td scope="col" id="titulo_usuario"></td>
+                </tr>  
+                <tr>
+                  <th scope="col">Órgão:</th>
+                  <td scope="col" id="orgao_usuario"></td>
+                </tr>    
+                <tr>
+                  <th scope="col">Número de Registro:</th>
+                  <td scope="col" id="registro_usuario"></td>
+                </tr>                       
+              </thead>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" >Fechar</button>           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fim do modal Dados Profissionais-->
+
+    <!-- Modal de confirmação -->
+    <div class="modal fade" id="modal_confirmar_alteracao" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Confirmação</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body" id="modal_confirmar_alteracao_body">
+            <p>ola</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="modal_confirmar_alteracao_alterar" class="btn btn-dark">Confirmar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal de Alert -->  
+    <div class="modal fade" id="modal_alerta" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title"> Atenção! </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            
+          </div>
+          <div class="modal-body" id="modal_alerta_body">
+            <p>Mensagem</p>
+          </div>
+          <div class="modal-footer">        
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  
+  
+  <!--Inclusão do rodapé -->
+  <%- include('partials/footer.ejs') %>
+
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>

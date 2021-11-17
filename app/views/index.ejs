@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no">
+    <title>Protocolo de Avaliação de Acessibilidade</title>
+    
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+     <!-- jquery -->
+     <script src="js/jquery-3.2.1.min.js"></script>
+
+    <script>
+      
+      $(document).ready(function(){        
+        if ('<%=validacao.length%>' >  0) {
+          $('#cadastro').click();  
+        }
+      });
+
+      
+
+
+      function limpa_formulário_cep() {
+        //Limpa valores do formulário de cep.
+        document.getElementById('cidade_usuario').value=("");
+        document.getElementById('estado_usuario').value=("");
+        //document.getElementById('ibge').value=("");
+      }
+
+      function meu_callback(conteudo) {
+        //alert('entrou no meu_callback')
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.            
+            document.getElementById('cidade_usuario').value=(conteudo.localidade);
+            document.getElementById('estado_usuario').value=(conteudo.uf);
+            //document.getElementById('ibge').value=(conteudo.ibge);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('cidade_usuario').value="...";
+                document.getElementById('estado_usuario').value="...";
+                //document.getElementById('ibge').value="...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
+    </script>
+
+  </head>
+  
+  
+  <body id="page-top">
+    
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container-fluid sticky-top">
+      <!--<a class="navbar-brand js-scroll-trigger" href="#page-top">HOME</a> -->
+      <a  href = "/" class="nav-link js-scroll-trigger text-white">      
+        <i class="fas fa-home"></i>
+         HOME
+      </a> 
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase mr-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#apresentacao"> <i class="fas fa-chalkboard-teacher"></i>  APRESENTAÇÃO</a>
+          </li>
+         
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#introducao"> <i class="fas fa-info-circle"></i> INTRODUÇÃO</a>
+          </li>
+          <li class="nav-item">
+            <a id="cadastro" class="nav-link js-scroll-trigger" href="#cadastrar"> <i class="fas fa-user-plus"></i> CADASTRO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contato"> <i class="fas fa-envelope"></i> CONTATO</a>
+          </li>
+          <%if (email.length > 0) {%>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="painel"><i class="fas fa-columns"></i> PAINEL</a>
+            </li>
+          <%}%>
+        </ul>
+        <ul class="navbar-nav ml-auto">  
+          <li class="nav-item">
+            <%if (email.length > 0) {%>
+              <a class="nav-link js-scroll-trigger" href="logout"> <i class="fas fa-user"> </i> LOGOUT</a>
+            <%}else{%>
+              <a class="nav-link js-scroll-trigger" href="login"> <i class="fas fa-user"></i> LOGIN</a>
+            <%}%>
+          </li> 
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <img id = "logo" src="images/accessibility-blue.png" width="200" height="200" alt="logotipo padrão de acessibilidade">        
+        <div class="intro-lead-in">Protocolo para avaliação de acessibilidade em escolas do ensino fundamental</div>
+        <h3> Um guia para gestores educacionais </h3>
+        <br> 
+        
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#apresentacao">Saiba Mais...</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Apresentação -->
+ 
+  <section id="apresentacao">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">APRESENTAÇÃO</h2>
+          <p class="section-subheading text-muted"> O Protocolo Digital é um guia prático para ser utilizado por gestores, educadores ou demais profissionais que participam do processo de modificação e adaptação dos espaços escolares. As informações contidas são com base nas normas técnicas brasileiras (ABNT, 2004) apresentadas por desenhos que foram elaborados a partir da realidade da arquitetura escolar pública brasileira.</p>
+          <p class="section-subheading text-muted"> Ao utilizar o protocolo terá a avaliação da acessibilidade dos espaços escolares, pelo ponto de vista de quem se desloca pela escola, fornecendo informações sobre as rotas utilizadas pela pessoa com deficiência.</p>
+          <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#introducao">Saiba Mais...</a>
+        </div>
+      </div>
+      
+  </section>
+
+ <!-- Introdução -->
+ <section id="introducao">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">INTRODUÇÃO</h2>
+        <p class="section-subheading text-muted "> Para que a inclusão educacional ocorra são necessárias mudanças em conceitos que cercam a educação. Um desses conceitos é a convivência no mesmo espaço físico e ao mesmo tempo, de alunos com e sem deficiência. Porém, principalmente quando enfocamos no aluno com deficiência física, algumas adaptações na estrutura física e na arquitetura escolar são necessárias, tais como a remoção de barreiras arquitetônicas que estão presentes, a instalação de equipamentos a serem utilizados por todos os alunos e a adequação de mobiliários. Para isso, é necessária uma criteriosa avaliação quanto a acessibilidade das estruturas físicas das escolas. Dessa forma, a inclusão requer mudanças e a escola necessita criar condições de acessibilidade aos alunos com deficiência. Busca-se ao finalizar a avaliação com o uso do instrumento responder as seguintes perguntas: 1) Quais são rotas mais acessível, 2) Quais as rotas menos acessíveis? e 3) Quais as mudanças poderiam ser iniciadas após a avaliação?.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#cadastrar">Faça seu cadastro agora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cadastro -->
+<section id="cadastrar">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">CADASTRO</h2>
+        <p class="section-subheading text-muted"> Para uso do protocolo digital é necessário que tenha um cadastro pessoal, para fins de registros dos dados das escolas que avaliará.
+          Para realizar o cadastro preencha os campos abaixo:
+        </p>
+      </div>
+    </div>
+
+    <% if(validacao.length > 0){ %>
+      <div class="alert alert-danger">
+        <strong>Atenção!</strong>
+        <ul>
+          <% for(var i = 0; i < validacao.length; i++) {%>
+            <li><%=validacao[i].msg%></li>
+          <% } %>
+        </ul>
+      </div>
+    <% } %>
+    
+      <form action = "/gravarCadastro" method="post">
+        <div class="form-row">
+          <div class="form-group  col-xs-5 col-lg-5 col-md-5 col-sm-12">
+            <label for="nome_usuario">Nome</label>
+            <input type="text" class="form-control" id="nome_usuario"  name="nome_usuario" placeholder="Informe seu nome" value="<%=dadosForm.nome_usuario%>">
+          </div>
+          <div class="form-group  col-xs-4 col-lg-4 col-md-4 col-sm-12">
+            <label for="email_usuario">Email</label>
+            <input type="email" class="form-control" id="email_usuario"  name="email_usuario" placeholder="Email" value="<%=dadosForm.email_usuario%>">
+          </div>
+          <div class="form-group  col-xs-3 col-lg-3 col-md-3 col-sm-12">
+            <label for="telefone_usuario">Telefone</label>
+            <input type="text" class="form-control" id="telefone_usuario"  name="telefone_usuario" placeholder="Telefone" value="<%=dadosForm.telefone_usuario%>">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-xs-2 col-lg-2 col-md-2 col-sm-12">
+            <label for="senha_usuario">Senha</label>
+            <input type="password" class="form-control" id="senha_usuario" name="senha_usuario" placeholder="Senha" value="<%=dadosForm.senha_usuario%>">
+          </div>
+          <div class="form-group col-xs-2 col-lg-2 col-md-2 col-sm-12">
+            <label for="senha_usuario2">Confirmação de senha</label>
+            <input type="password" class="form-control" id="senha_usuario2" name="senha_usuario2" placeholder="Conf. Senha" value="<%=dadosForm.senha2_usuario%>">
+          
+          </div>
+          <div class="form-group col-xs-2 col-lg-2 col-md-2 col-sm-12" >
+            <label for="cep_usuario">CEP</label>
+            <input type="text" class="form-control" id="cep_usuario" name="cep_usuario" placeholder="CEP" onblur = "pesquisacep(this.value);" value="<%=dadosForm.cep_usuario%>" >
+          </div>
+
+          <div class="form-group col-xs-2 col-lg-2 col-md-2 col-sm-12" >
+            <label for="estado_usuario">Estado</label>
+            <input readonly type="text" class="form-control" id="estado_usuario" name="estado_usuario" placeholder="Estado" value="<%=dadosForm.estado_usuario%>">
+          </div>
+
+          <div class="form-group col-xs-4 col-lg-4 col-md-4 col-sm-12">
+            <label for="cidade_usuario">Cidade</label>
+            <input readonly type="text" class="form-control" id="cidade_usuario" name="cidade_usuario" placeholder="Cidade" value="<%=dadosForm.cidade_usuario%>">
+          </div>
+        </div> 
+        <div class="form-row">
+          <div class="form-group col-xs-12 col-md-12 col-sm-12">
+            <label for="interesse_usuario"> Qual seu interesse no protocolo? Estudante, professor, pesquisador?</label>
+            <textarea  class="form-control"  rows="2" id = "interesse_usuario" name = "interesse_usuario"><%=dadosForm.interesse_usuario%></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </form>
+   
+  </div>
+</section>
+
+
+     <!-- Contact -->
+
+     <section id="contato">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading text-uppercase">CONTATO</h2>      
+            <h3 class="section-subheading text-muted"> Envie seus dados e sua mensagem.  Em breve retornaremos sua mensagem por e-mail</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <form action = "enviaContato" method = "post">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" id="nome" name="nome" type="text" placeholder="Seu Nome *" required="required" data-validation-required-message="Informe o seu nome">
+                    <p class="help-block text-danger"></p>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" id="email" name="email"type="email" placeholder="Seu E-mail *" required="required" data-validation-required-message="Informe o seu e-mail">
+                    <p class="help-block text-danger"></p>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" id="telefone" name="telefone" type="tel" placeholder="Seu Telefone *" required="required" data-validation-required-message="Informe seu número de telefone">
+                    <p class="help-block text-danger"></p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <textarea rows = "5" class="form-control" id="mensagem" name="mensagem" placeholder="Mensagem *" required="required" data-validation-required-message="Por Favor escrever a mensagem."></textarea>
+                    <p class="help-block text-danger"></p>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12 text-center">
+                  <div id="success"></div>
+                  <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Enviar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Inclusão do rodapé -->
+    <%- include('partials/footer.ejs') %>
+
+      
+    <script src="js/popper.min.js"> </script>
+    <script src="js/bootstrap.min.js"> </script>
+
+    <!-- Bootstrap core JavaScript -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.min.js"></script>
+    
+   
+    <!-- js DO TEMPLATE -->
+    <script src="js/agency.min.js"></script>
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>

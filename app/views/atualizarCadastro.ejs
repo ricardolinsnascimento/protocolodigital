@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no"> 
+    <title>Protocolo Digital</title>
+
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+     <!--<script src="js/popper.min.js"> </script>-->
+     <script src="js/bootstrap.min.js"> </script>
+
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+
+    <script>
+
+
+       function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('cidade_usuario').value=("");
+            document.getElementById('estado_usuario').value=("");
+            //document.getElementById('ibge').value=("");
+        }
+
+    function meu_callback(conteudo) {
+        //alert('entrou no meu_callback')
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('cidade_usuario').value=(conteudo.localidade);
+            document.getElementById('estado_usuario').value=(conteudo.uf);
+            //document.getElementById('ibge').value=(conteudo.ibge);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('cidade_usuario').value="...";
+                document.getElementById('estado_usuario').value="...";
+                //document.getElementById('ibge').value="...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
+
+    </script>
+  
+
+  </head>
+  
+
+  
+  <body id="page-top">  
+    <!-- inclui menu -->
+    <%- include('partials/header_full.ejs') %>
+
+     
+  <header class="cadastro">
+    <div class="container">
+      <div class="row"> 
+        <div class="col">
+          <div class="intro-text">
+            <br>    
+            <div class="intro-lead-in">Atualizar Cadastro </div>
+           
+            
+
+            <% if(validacao.length > 0){ %>
+              <div class="alert alert-danger">
+                <strong>Atenção!</strong>
+                <ul>
+                  <% for(var i = 0; i < validacao.length; i++) {%>
+                    <li><%=validacao[i].msg%></li>
+                  <% } %>
+                </ul>
+              </div>
+            <% } %>
+                
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div id="cadastro">
+      <div class="row">       
+        <div class="col">
+        
+          
+
+          <form action="/salvaAtualizacao" method="post">
+
+            <div class="form-row">
+              <div class="form-group col-xs-6 col-lg-6 col-md-6 col-sm-12">                  
+                <label for="email_usuario"> E-mail </label>
+                <input readonly type="text" class="form-control" name="email_usuario" id="email_usuario" value="<%=dadosForm.email_usuario%>" placeholder="Informe um e-mail válido" data-toggle="tooltip" data-placement="bottom" >                  
+              </div>    
+              
+              <div class="form-group  col-xs-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="nome_usuario"> Nome </label>
+                <input readonly type="text" class="form-control" name="nome_usuario" id="nome_usuario" placeholder="Informe aqui o seu nome"  value="<%=dadosForm.nome_usuario%>"  data-placement="bottom" >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-xs-2 col-lg-2 col-md-2 col-sm-12">
+                <label for="cep_usuario"> CEP  </label>
+                <input type="text" class="form-control" name="cep_usuario" id="cep_usuario" placeholder="CEP" onblur = "pesquisacep(this.value);" value="<%=dadosForm.cep_usuario%>"  data-placement="bottom">
+              </div>  
+    
+              <div class="form-group col-xs-4 col-lg-4 col-sm-4 col-sm-12">                  
+                <label for="cidade_usuario"> Cidade </label>
+                <input readonly type="text" class="form-control" name="cidade_usuario" id="cidade_usuario" value="<%=dadosForm.cidade_usuario%>" placeholder="Cidade" data-toggle="tooltip" data-placement="bottom" >                  
+              </div> 
+                     
+              <div class="form-group col-xs-4 col-lg-4 col-md-4 col-sm-12">                  
+                <label for="estado_usuario"> Estado </label>
+                <input readonly type="text" class="form-control" name="estado_usuario" id="estado_usuario" value="<%=dadosForm.estado_usuario%>" placeholder="Estado" data-toggle="tooltip" data-placement="bottom" >                  
+              </div>   
+  
+              <div class="form-group col-xs-2 col-md-2 col-sm-12">                  
+                <label for="telefone_usuario"> Telefone </label>
+                <input type="text" class="form-control" name="telefone_usuario" id="telefone_usuario" value="<%=dadosForm.telefone_usuario%>" placeholder="Informe o seu telefone" data-toggle="tooltip" data-placement="bottom" >                  
+              </div>  
+
+            </div>     
+            
+            
+            <div class="form-row">
+              <div class="form-group col-xs-12 col-md-12 col-sm-12">
+                <label for="interesse_usuario"> Qual seu interesse no protocolo? Estudante, professor, pesquisador?</label>
+                <textarea  class="form-control"  rows="2" id = "interesse_usuario" name = "interesse_usuario"><%=dadosForm.interesse_usuario%></textarea>
+              </div>
+            </div>
+              
+            <div class="form-row">
+      
+              <div class="col-xs-4 col-md-4 col-sm-12">
+
+                <button type = "submit" class= "btn btn-primary btn-lg btn-block" id="btn_confirmar"   >  
+                    <i class="fas fa-check-circle"></i>
+                    Atualizar o Cadastro
+                  </button>
+              </div>
+            </div>
+          
+          </form>   
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <!--Inclusão do rodapé -->
+  <%- include('partials/footer.ejs') %>
+
+        
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>

@@ -1,0 +1,50 @@
+  .row{
+    margin-bottom: 10px;   
+  }
+  div.bg{
+    height: 50px;
+    border: 1px solid #fff;     
+  }     
+  div.bgb{
+    height: 30px;
+    border: 1px solid #fff;     
+  }      
+  div.bg2{
+    background-color: #FFFF00 ;        
+  }
+  div.bg3{
+    background-color: #D3D3D3 ;        
+  }
+
+  body{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;    
+  }
+
+  #logo{
+    padding: 30px;
+  }
+
+  .imagem{
+    padding: 15px;
+  }
+  
+  
+  th.vertical {
+    height:100px;
+    white-space: nowrap;
+    position:relative;
+  }
+  
+  th.vertical > div {
+    transform: rotate(90deg);
+    position:relative;
+    left:0;
+    right:0;
+    top: 0px;
+    margin:auto;
+    
+  }
+
+  li { cursor: pointer; }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no">
+    <title>Protocolo Digital</title>
+    
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+
+
+  </head>
+  
+
+  
+  <body id="page-top">  
+   <!--menu -->
+   <%- include('partials/header_small.ejs') %>
+
+
+
+<header class="cadastro">
+  <div class="container">
+    <div class="intro-text">
+     <!-- <img id = "logo" src="images/logo_menor.jpg" alt="logo xamã"> -->       
+     <br> 
+     <div class="intro-lead-in">Senha alterada</div>
+     <br>
+     <h3>Sua senha foi alterada com sucesso</h3>
+     <h4> Clique <a href="login"> aqui </a> para fazer o login</h4>
+
+      
+ 
+    </div>
+  </div>
+</header>
+
+
+   
+
+
+     <!--Inclusão do rodapé -->
+     <%- include('partials/footer.ejs') %>
+
+      
+    <script src="js/popper.min.js"> </script>
+    <script src="js/bootstrap.min.js"> </script>
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no">
+    <title>Protocolo Digital</title>
+ 
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+     <!--<script src="js/popper.min.js"> </script>-->
+     <script src="js/bootstrap.min.js"> </script>
+
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+  
+  <script>
+
+     /* Verifica mudanças no Scroll e salva no localStorage a posição */
+     window.onscroll = function (e) {
+          posicao = window.scrollY;         
+          localStorage.setItem('posicaoScrolllogUsuarios', JSON.stringify(posicao));
+          
+      }
+
+      $(document).ready(function(){       
+        var zero = 0;
+        localStorage.setItem('posicaoScrollUsuarios', JSON.stringify(zero));
+        localStorage.setItem('posicaoScrollTerminologia', JSON.stringify(zero));
+        localStorage.setItem('posicaoScrollNormas', JSON.stringify(zero));
+        localStorage.setItem('posicaoScrollOcupacoes', JSON.stringify(zero));
+        var posicao = localStorage.getItem('posicaoScrolllogUsuarios');
+        /* Se existir uma opção salva seta o scroll nela */
+        if(posicao) {
+            /* Timeout necessário para funcionar no Chrome */
+            setTimeout(function() {
+                window.scrollTo(0, posicao);
+            }, 1);
+        }
+      });
+
+      function Usuarios(){
+
+        url="/usuarios"
+        window.location=url;
+      }
+
+      
+
+
+  </script>
+
+  <body>    
+    <%- include('partials/header_full.ejs') %>
+  
+  
+    
+    <header class="cadastro">
+      <div class="container">
+        <div class="intro-text">       
+
+         
+        
+        
+          <br>    
+          <div class="intro-lead-in">Logs de usuários</div>
+          
+          <br>          
+          
+        </div>
+      </div>
+    </header>
+
+      <div class="container ">
+         <div class="row">
+          <div class="col-lg-2 col-sm-12">
+            <form>
+              <div class="input-group">
+                  <div class="input-group-btn">
+                  <button class="btn btn-primary" type="button"  onclick="Usuarios()"  data-toggle="tooltip" data-placement="bottom" > <i class="fas fa-users"></i>   Usuários  </button>
+                  </div>
+              </div>
+          </form>
+
+          </div>
+         </div>
+
+          <div class="row">    
+            <div class= "col-12">
+              <table class="table table-responsive table-hover">
+                <thead>
+                  <tr>
+                    
+                    <th scope="col">Data</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Usuário </th>                 
+                    <th scope="col">Historico</th>                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <% var i=0 %>
+                  <% for (i=0; i < log.length; i++) {%>
+                    
+                    <tr>                    
+                      
+                      <td   scope="row"> <%=log[i].data_log.getDate()%>/<%=(log[i].data_log.getMonth())+1%>/<%=log[i].data_log.getFullYear()%> </td>
+                      <td   scope="row"> <%=log[i].hora_log%> </td>
+                      <td   scope="row"> <%=log[i].descricao_tipo_log_usuarios%> </td>
+                      <td   scope="row"> <%=log[i].nome_usuario%> </td>
+                      <td   scope="row"> <%=log[i].historico_log%> </td>
+                    </tr>
+
+                  <%}%>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+      
+  <!--Inclusão do rodapé -->
+  <%- include('partials/footer.ejs') %>
+
+      <script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no"> 
+    <title>Protocolo Digital</title>
+
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+     <!--<script src="js/popper.min.js"> </script>-->
+     <script src="js/bootstrap.min.js"> </script>
+
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />   
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+    <script>
+      function IncluiEscola(){
+        url="/incluiEscola";
+        window.location=url;
+      }
+
+      function IncluiAvaliacao(avaliacoes){       
+        avaliacoes = parseInt(avaliacoes)      
+        if (avaliacoes > 0){
+          var msg = "Essa escola já tem avaliações iniciadas. Você pode selecionar a avaliação e continuar a edição. Você deseja iniciar uma nova avaliação?"
+        }else{
+          var msg = "Você deseja iniciar a primeira avaliação para essa escola?"
+        }
+
+        $("#modal_confirmar_alteracao_body").html('<h5>' + msg + ' </h5>');          
+          $("#modal_confirmar_alteracao_alterar").click(function (e) {              
+            $('#modal_confirmar_alteracao').modal('hide'); 
+
+              url="/incluiAvaliacao?id_escola=<%=id_escola%>"
+              window.location=url;
+              
+
+            });
+           $('#modal_confirmar_alteracao').modal('show');
+      }
+       
+      
+    </script>
+  </head> 
+
+  
+  <body id="page-top">  
+  <!--inclusão do menu-->
+  <%- include('partials/header_full.ejs') %>
+  
+    
+    <header class="cadastro">
+      <div class="container">
+        <div class="intro-text">
+        <!-- <img id = "logo" src="images/logo_menor.jpg" alt="logo xamã"> -->   
+
+        <%if (msg.length > 0) {%>
+
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <%=msg%>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <%}%>
+        
+          <br>    
+          <div class="intro-lead-in">Painel de Controle</div>
+         
+          <h4> Protocolo de avaliação da acessibilidade física em escolas de ensino fundamental</h1>
+          <%if (status == 'suspenso') {%>
+            <div class="alert alert-danger alert-dismissible fade show " role="alert">
+              <h1>Seu cadastro está suspenso. Entre em contato com os administradores do site.</h1>
+              
+            </div>
+            
+          <%}%>
+        
+          
+        </div>
+      </div>
+    </header>
+    <main>
+      <% if (status != 'suspenso') {%>
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-6 col-xs-6 col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-header padrao text-white">
+                <h5 class=card-title> <i class="fas fa-school"></i> Passo 1 - Selecionar Escola </h5>
+              </div>
+              <div class="card-body">
+                <%if (escolas.length > 0 ) {%>
+                  <h6> Selecione a escola</h6>  
+                  <%for (var i=0; i<escolas.length; i++) {%>
+                    <a href="avaliacoes?id_escola=<%=escolas[i].id_escola%>"> <%=escolas[i].nome_escola%> </a>
+                    <br>
+                  <%}%>
+                
+                <%}else{%>
+                  <h6 class="text-warning" > Você não tem nenhuma escola cadastrada. Clique no botão abaixo para incluir uma escola</h6>
+                
+                <%}%>
+              </div>
+              <div class="card-footer">
+                <button type="button" class= "btn btn-block btn-primary btn-lg" onclick="IncluiEscola()" data-placement = "botton"> <i class="fas fa-plus"></i> Incluir Escola </button>
+
+              </div>
+
+            </div>
+
+          </div>
+         
+          <%if (id_escola > 0) {%>
+
+            <div class="col-lg-6 col-xs-6 col-md-6 col-sm-12">
+              <div class="card">
+                <div class="card-header padrao text-white">
+                  <h5 class=card-title> <i class="fab fa-accessible-icon"></i> Passo 2 - Selecionar Avaliação </h5>
+                </div>
+                <div class="card-body">
+                  <%if (avaliacoes.length > 0 ) {%>
+                    <h6> Selecione a Avaliação</h6>  
+                    <%for (var i=0; i<avaliacoes.length; i++) {%>
+                      <a href="abreAvaliacao?id_avaliacao=<%=avaliacoes[i].id_avaliacao%>"> <%=avaliacoes[i].nome_avaliacao%> </a>
+                      <br>
+                    <%}%>
+                  
+                  <%}else{%>
+                    <h6 class="text-warning" > Você não iniciou nenhuma avaliação. Clique no botão abaixo para iniciar uma avaliação</h6>
+                  
+                  <%}%>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class= "btn btn-block btn-primary btn-lg" onclick="IncluiAvaliacao('<%=avaliacoes.length%>')" data-placement = "botton"> <i class="fas fa-plus"></i> Iniciar Avaliação </button>
+  
+                </div>
+  
+              </div>
+  
+            </div>
+
+          <%}%>
+
+        </div>
+
+      </div>
+      <%}%>
+
+      <!-- Modal de confirmação -->
+    <div class="modal fade" id="modal_confirmar_alteracao" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Confirmação</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body" id="modal_confirmar_alteracao_body">
+            <p>ola</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="modal_confirmar_alteracao_alterar" class="btn btn-dark">Confirmar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+      
+    </main>
+
+
+     <!--Inclusão do rodapé -->
+    <%- include('partials/footer.ejs') %>
+
+    
+     
+    </body>
+    
+    
+    <script> //script para tooltip
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+    
+    </html>

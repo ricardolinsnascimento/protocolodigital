@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no">
+    <title>Protocolo Digital</title>
+    
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+
+
+  </head>
+  
+
+  
+  <body id="page-top">
+    <!-- inclui o menu -->
+    <%- include('partials/header_full.ejs') %>
+  
+<header class="cadastro">
+  <div class="container">
+    <div class="intro-text">
+     <!-- <img id = "logo" src="images/logo_menor.jpg" alt="logo xamã"> -->       
+     <br> 
+     <div class="intro-lead-in">Nova senha</div>
+      
+ 
+    </div>
+  </div>
+</header>
+
+
+    <div class="conteiner">
+      
+
+      <div class="row">       
+        <div class = "col-4"></div>
+        <div class = "col-lg-4 col-sm-12" >
+
+          <% if(validacao.length > 0){ %>
+            <div class="alert alert-danger">
+              <strong>Atenção!</strong>
+              <ul>
+                <% for(var i = 0; i < validacao.length; i++) {%>
+                  <li><%=validacao[i].msg%></li>
+                <% } %>
+              </ul>
+            </div>
+          <% } %>
+          <form action="/atualizaSenha" method="post">
+                    
+            <div class="form-group">                
+              <label for="senha_usuario"> Informe a nova Senha </label>
+              <input type="password" class="form-control" name="senha_usuario" id="senha_usuario" placeholder="Informe a nova senha"  data-toggle="tooltip" aria-describedby="loginHelp" data-placement="bottom" >                
+            </div>
+
+            
+             <div class="form-group">                
+              <label for="senha_usuario2"> Confirme a nova Senha </label>
+              <input type="password" class="form-control" name="senha_usuario2" id="senha_usuario2" placeholder="Confirme a nova senha"  data-toggle="tooltip" aria-describedby="loginHelp" data-placement="bottom" >                
+            </div>
+
+            <input type="hidden" name="email_usuario" id="email_usuario" value="<%=email%>" />
+            <input type="hidden" name="token" id="token" value="<%=token%>" />
+
+
+            <button type = "submit" class= "btn btn-primary btn-lg btn-block" id="btn_entrar" data-toggle="tooltip" data-placement="bottom" title="Redefinir Senha">  
+              <i class="fas fa-check"></i>
+              Confirmar 
+            </button>
+
+            
+                  
+          </form>        
+            
+          
+            
+      </div>
+
+
+
+    </div>
+
+
+      <!--Inclusão do rodapé -->
+      <%- include('partials/footer.ejs') %>
+
+      
+    <script src="js/popper.min.js"> </script>
+    <script src="js/bootstrap.min.js"> </script>
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>

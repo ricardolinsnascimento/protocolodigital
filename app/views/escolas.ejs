@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width,initial-scale = 1, shrink-to-fit=no"> 
+    <title>Protocolo Digital</title>
+
+    <!-- jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+     <!--<script src="js/popper.min.js"> </script>-->
+     <script src="js/bootstrap.min.js"> </script>
+
+    <!-- bootstrap - link cdn -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!--instalação da fonte awesome-->
+    <link href="bibliotecas/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    <!-- incluindo css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    
+
+        
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+
+    <script>
+
+      
+
+      function incluiEscola(){
+        url="/incluiEscola";
+        window.location=url;
+      }
+
+      function buscaEscola(){          
+        url="/buscaEscola?nome_escola="+document.getElementById("txtBusca").value;
+        window.location=url; 
+      }
+
+      function editarEscola(indice, id, nome_escola, cep_escola, rua_escola, numero_escola, complemento_escola, cidade_escola, estado_escola, telefone_escola, responsavel_escola){
+       
+        document.getElementById("id_escola").value = id,
+        document.getElementById("nome_escola").value = nome_escola,
+        document.getElementById("cep_escola").value =  cep_escola,
+        document.getElementById("rua_escola").value =  rua_escola,
+        document.getElementById("numero_escola").value =  numero_escola,
+        document.getElementById("complemento_escola").value =  complemento_escola,
+        document.getElementById("cidade_escola").value =  cidade_escola,
+        document.getElementById("estado_escola").value =  estado_escola,
+        document.getElementById("telefone_escola").value =  telefone_escola,  
+        document.getElementById("responsavel_escola").value =  responsavel_escola,         
+       
+        $('#modalEditar').modal('show');
+      }
+
+      function excluirEscola(id, nome_escola){
+        $("#modal_confirmar_alteracao_body").html('<h5> Confirma a exclusão da escola <b> [ ' + nome_escola +' ] </b> ? </h5>');
+          
+          $("#modal_confirmar_alteracao_alterar").click(function (e) {
+              
+            $('#modal_confirmar_alteracao').modal('hide');   
+
+              url="/excluirEscola?id_escola="+id;
+              window.location=url; 
+              
+            });
+           $('#modal_confirmar_alteracao').modal('show');
+        
+      }
+
+      function limpa_formulário_cep() {
+          //Limpa valores do formulário de cep.
+          document.getElementById('cidade_escola').value=("");
+          document.getElementById('estado_escola').value=("");
+          document.getElementById('rua_escola').value=("");
+          //document.getElementById('ibge').value=("");
+      }
+
+      function meu_callback(conteudo) {
+        //alert('entrou no meu_callback')
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('cidade_escola').value=(conteudo.localidade);
+            document.getElementById('estado_escola').value=(conteudo.uf);
+            document.getElementById('rua_escola').value=(conteudo.logradouro)
+            //document.getElementById('ibge').value=(conteudo.ibge);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+      }
+        
+      function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('cidade_escola').value="...";
+                document.getElementById('estado_escola').value="...";
+                document.getElementById('rua_escola').value="...";
+                //document.getElementById('ibge').value="...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+      };
+
+
+      
+    </script>
+
+  </head>
+  
+
+  
+  <body id="page-top">  
+    <!-- inclui o menu -->
+    <%- include('partials/header_full.ejs') %>
+
+    <header class="cadastro">
+      <div class="container">
+        <div class="intro-text">       
+
+          <%if (msg.length > 0) {%>
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <%=msg%>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <%}%>
+        
+          <br>    
+          <div class="intro-lead-in">Cadastro de Escolas</div>
+          <br>          
+          
+        </div>
+      </div>
+    </header>
+
+    <!--Início da main-->
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class = "col-lg-2 col-sm-12">
+            <button class="btn btn-primary" type="button"  onclick="incluiEscola()"  data-toggle="tooltip" data-placement="bottom" > <i class="fas fa-plus-square"></i> Nova Escola</button>
+          </div>
+          
+
+          <div class = "col-lg-6 col-sm-12">
+            <!--<form>-->
+                <div class="input-group">
+                    <input class="form-control bg-light" type="text" name="escola" id="txtBusca"  placeholder="Digite o nome da escola que deseja pesquisar"  data-placement="bottom" value="<%=busca.termo_terminologia_grande%>" />
+                    <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button"  onclick="buscaEscola()"  data-toggle="tooltip" data-placement="bottom" > <i class="fas fa-search"></i>  </button>
+                    </div>
+                </div>
+            <!--</form>-->
+          </div>
+
+          <div class = "col-lg-4 col-sm-12">          
+              
+            <div  id= "alerta"  class="alert alert-dark  small" role="alert">
+                <%if(registros.length == 0) { %>
+                <h6 id="mensagem"> Nenhuma escola localizada </h6>      
+                <%}else if (registros.length == 1) {%>
+                <h6 id="mensagem"> 1 escola localizada </h6>      
+                <%}else{%>
+                <h6 id="mensagem"> <%=registros.length%> &nbsp escolas localizadas  </h6>      
+                <%}%>
+            </div>
+                
+          </div>
+        </div>
+        
+        <%if(registros.length > 0) { %>
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-responsive table-hover table-sm">  
+                <thead>
+                  <tr>   
+                      <th style="width: 15%" scope="col">Usuario</th>                    
+                      <th style="width: 20%" scope="col">Escola</th>                                        
+                      <th style="width: 5%" scope="col">CEP</th> 
+                      <th style="width: 15%" scope="col">Endereço</th> 
+                      <th style="width: 10%" scope="col">Complemento</th>
+                      <th style="width: 15%" scope="col">Cidade</th>                     
+                      <th style="width: 10%" scope="col">Responsável</th>                      
+                      <th style="width: 5%" scope = "col">Editar</th> 
+                      <th style="width: 5%" scope = "col">Excluir</th> 
+                  </tr>
+                </thead>
+
+                <tbody>             
+                  <% for (var i=0; i < registros.length; i++) {%>
+                    <% if (registros[i].status_terminologia == 'inativo') { %>
+                      <tr id="linha<%=i%>" class="text-danger">
+                    <%}else{%>
+                      <tr id="linha<%=i%>">
+                    <%}%>
+                                       
+                    <td id = "nome_usuario<%=i%>" scope="row"> <%=registros[i].nome_usuario%> </td>     
+                    <td id = "nome_escola<%=i%>" scope="row"> <%=registros[i].nome_escola%> </td>                
+                    <td id = "cep_escola<%=i%>" scope="row"> <%=registros[i].cep_escola%> </td>   
+                    <td id = "rua_escola<%=i%>" scope="row"> <%=registros[i].rua_escola%>,<%=registros[i].numero_escola%>  </td>                       
+                    <td id = "complemento_escola<%=i%>" scope="row"> <%=registros[i].complemento_escola%> </td>   
+                    <td id = "cidade_escola<%=i%>" scope="row"> <%=registros[i].cidade_escola%>/<%=registros[i].estado_escola%> </td>  
+                    <td id = "responsavel_escola<%=i%>" scope="row"> <%=registros[i].responsavel_escola%>-<%=registros[i].telefone_escola%>  </td>   
+                    
+                    <td>
+                      <%if (id_usuario == registros[i].id_usuario_escola) {%>
+                        <button id = "btn_Editar<%=i%>" name = "btn_Editar<%=i%>" type = "button" class= "btn btn-primary btn-block"  onclick = "editarEscola('<%=i%>', '<%=registros[i].id_escola%>',  '<%=registros[i].nome_escola%>', '<%=registros[i].cep_escola%>', '<%=registros[i].rua_escola%>', '<%=registros[i].numero_escola%>',  '<%=registros[i].complemento_escola%>', '<%=registros[i].cidade_escola%>', '<%=registros[i].estado_escola%>', '<%=registros[i].telefone_escola%>', '<%=registros[i].responsavel_escola%>')"   data-toggle="tooltip"  title="Editar a escola <%=registros[i].nome_escola%>" >
+                        <i id="icone_botao<%=i%>" class="fas fa-edit"></i>                             
+                        </button>     
+                      <%}else{%>
+                        <button disabled id = "btn_Editar<%=i%>" name = "btn_Editar<%=i%>" type = "button" class= "btn btn-primary btn-block"  onclick = "editarEscola('<%=i%>', '<%=registros[i].id_escola%>',  '<%=registros[i].nome_escola%>', '<%=registros[i].cep_escola%>', '<%=registros[i].rua_escola%>', '<%=registros[i].numero_escola%>',  '<%=registros[i].complemento_escola%>', '<%=registros[i].cidade_escola%>', '<%=registros[i].estado_escola%>', '<%=registros[i].telefone_escola%>', '<%=registros[i].responsavel_escola%>')"   data-toggle="tooltip"  title="Editar a escola <%=registros[i].nome_escola%>" >
+                          <i id="icone_botao<%=i%>" class="fas fa-edit"></i>                             
+                          </button>   
+                        
+                      <%}%>
+                    </td> 
+
+                    <td>
+                      <%if (id_usuario == registros[i].id_usuario_escola) {%>
+                        <button id = "btn_Excluir<%=i%>" name = "btn_Excluir<%=i%>" type = "button" class= "btn btn-danger btn-block"  onclick = "excluirEscola('<%=registros[i].id_escola%>', '<%=registros[i].nome_escola%>')"   data-toggle="tooltip"  title="Excluir a escola <%=registros[i].nome_escola%>" >
+                        <i id="icone_botao<%=i%>" class="fas fa-trash-alt"></i>                             
+                        </button>
+                      <%}else{%>
+                        <button disabled  id = "btn_Excluir<%=i%>" name = "btn_Excluir<%=i%>" type = "button" class= "btn btn-danger btn-block"  onclick = "excluirEscola('<%=registros[i].id_escola%>', '<%=registros[i].nome_escola%>')"   data-toggle="tooltip"  title="Excluir a escola <%=registros[i].nome_escola%>" >
+                          <i id="icone_botao<%=i%>" class="fas fa-trash-alt"></i>                             
+                          </button>
+                      <%}%>                    
+                    </td> 
+                  </tr>
+
+                  <%}%>
+
+
+                </tbody>
+
+
+              </table>
+            </div>
+          </div>
+        <%}%>
+      </div>
+     
+    </main>
+
+
+    <!-- Modal de confirmação -->
+    <div class="modal fade" id="modal_confirmar_alteracao" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Confirmação</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body" id="modal_confirmar_alteracao_body">
+            <p>ola</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="modal_confirmar_alteracao_alterar" class="btn btn-dark">Confirmar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal de Alert -->  
+    <div class="modal fade" id="modal_alerta" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title"> Atenção! </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            
+          </div>
+          <div class="modal-body" id="modal_alerta_body">
+            <p>Mensagem</p>
+          </div>
+          <div class="modal-footer">        
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- área para os modals -->
+    
+     <!-- Inicio Modal Editar -->
+     <div class="modal fade" name = "modalEditar" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="Escola" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary ">
+            <h5 class="modal-title text-white" id="exampleModalLabel" > Editar Escola  </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>            
+          </div>
+          <div class="modal-body">       
+            <p id="nome_usuario"> </p>   
+            
+            <form action="/editaEscola" method="post">
+
+              <div class="form-row">
+                           
+                  
+                  <input  type="hidden" class="form-control" name="id_escola" id="id_escola"  placeholder="" data-toggle="tooltip" data-placement="bottom" >                  
+                
+              
+                <div class="form-group col-xs-12 col-md-12 col-sm-12">                  
+                  <label for="nome_escola"> Nome da Escola </label>
+                  <input  type="text" class="form-control" name="nome_escola" id="nome_escola"  placeholder="Nome da escola" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>    
+              </div>
+  
+              <div class="form-row">              
+                <div class="form-group col-xs-3 col-md-3 col-sm-12">   
+                  <label for="cep_escola"> CEP </label>
+                  <input  type="text" class="form-control" name="cep_escola" id="cep_escola" onblur = "pesquisacep(this.value);" placeholder="CEP da escola" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+
+                <div class="form-group col-xs-6 col-md-6 col-sm-12">   
+                  <label for="rua_escola"> Rua </label>
+                  <input readonly type="text" class="form-control" name="rua_escola" id="rua_escola"  placeholder="Rua da escola" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+
+                <div class="form-group col-xs-3 col-md-3 col-sm-12">   
+                  <label for="numero_escola"> Numero </label>
+                  <input  type="text" class="form-control" name="numero_escola" id="numero_escola"  placeholder="Numero da escola" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+              </div>
+
+              <div class="form-row">              
+                <div class="form-group col-xs-5 col-md-5 col-sm-12">   
+                  <label for="complemento_escola"> Complemento </label>
+                  <input  type="text" class="form-control" name="complemento_escola" id="complemento_escola"  placeholder="Complemento" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+
+                <div class="form-group col-xs-5 col-md-5 col-sm-12">   
+                  <label for="cidade_escola"> Cidade </label>
+                  <input  readonly type="text" class="form-control" name="cidade_escola" id="cidade_escola"  placeholder="Cidade" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+
+                <div class="form-group col-xs-2 col-md-2 col-sm-12">   
+                  <label for="estado_escola"> UF </label>
+                  <input  readonly type="text" class="form-control" name="estado_escola" id="estado_escola"  placeholder="Estado" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+              </div>
+
+              <div class="form-row">              
+                <div class="form-group col-xs-5 col-md-5 col-sm-12">   
+                  <label for="telefone_escola"> Telefone </label>
+                  <input  type="text" class="form-control" name="telefone_escola" id="telefone_escola"  placeholder="Telefone" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+
+                <div class="form-group col-xs-7 col-md-7 col-sm-12">   
+                  <label for="responsavel_escola"> Responsável </label>
+                  <input  type="text" class="form-control" name="responsavel_escola" id="responsavel_escola"  placeholder="Responsável" data-toggle="tooltip" data-placement="bottom" >                  
+                </div>
+              </div>
+  
+                
+              <div class="form-row">      
+                <div class="col-xs-4 col-md-4 col-sm-12">
+                  <button type = "submit" class= "btn btn-primary btn-lg btn-block" id="btn_confirmar"   >  
+                      <i class="fas fa-check-circle"></i>
+                      Salvar 
+                    </button>
+                </div>
+              </div>
+            
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" >Fechar</button>           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fim do modal Editar-->
+
+  
+  
+  <!--Inclusão do rodapé -->
+  <%- include('partials/footer.ejs') %>
+  
+  </body>
+  
+
+<script> //script para tooltip
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    $('#txtBusca').keydown(function(e){
+        
+        if (e.which == 13){
+          buscaEscola(); 
+        }
+      })
+</script>
+
+</html>

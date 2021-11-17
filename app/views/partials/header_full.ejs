@@ -1,0 +1,67 @@
+<!-- Navigation -->
+<div class="container-fluid">    
+    <nav class="navbar navbar-expand-lg fixed-top" id="cadastroNav">
+    
+      <a  href = "/" class="nav-link js-scroll-trigger text-white">      
+        <i class="fas fa-home"></i>
+         HOME
+      </a> 
+      <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="painel"><i class="fas fa-columns"></i> PAINEL</a>
+          </li>
+          <%if (status != 'suspenso') {%>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="far fa-user"></i> Sua conta
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="mudaSenha"> <i class="fas fa-key"></i> Redefinir senha</a>
+                <a class="dropdown-item" href="atualizarCadastro"> <i class="fas fa-edit"></i> Atualizar cadastro</a>            
+              
+                
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="escolas"><i class="fas fa-school"></i> Escolas</a>
+            </li>
+            <%if (perfil == "Administrador"){%>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user-lock"></i> Administração
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="usuarios">Gerenciar Usuários</a>               
+                  
+                </div>
+              </li>
+              
+            <%}%>
+          <%}%>
+
+        </ul>
+          
+        <ul class="navbar-nav text-uppercase ml-auto">
+          
+          <!--
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portifolio">DEPOIMENTOS</a>
+          </li>
+          -->
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="logout"> <i class="fas fa-user"></i> LOGOUT</a>
+          </li> 
+        </ul>
+      </div>
+    
+    </nav>
+  </div>
+  <!-- Fim da NavBar-->
