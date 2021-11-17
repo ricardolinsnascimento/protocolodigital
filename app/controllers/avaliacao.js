@@ -1,4 +1,3 @@
-const avaliacaoDAO = require('../models/avaliacaoDAO');
 const usuariosDAO = require('../models/usuariosDAO');
 
 const avaliacao = require('../routes/avaliacao');
