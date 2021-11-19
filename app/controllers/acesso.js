@@ -1,4 +1,4 @@
-const usuariosDAO = require('../models/usuariosDAO.js');
+const usuariosDAO = require('../models/usuariosDAO');
 
 module.exports.index = function(application, req, res){	
 	if (req.session.autorizado){

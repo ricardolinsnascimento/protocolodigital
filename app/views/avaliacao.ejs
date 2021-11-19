@@ -194,7 +194,18 @@
 
       });
 
+      function especificacoesBanheiro(avaliacao, tabela, item){
+        const elemento = document.getElementById("barra-"+tabela+"-"+item);
+        if (elemento.value == '' || elemento.value == 'não'){
+          elemento.value = 'sim';
+          gravaBarras(avaliacao,tabela,item, 'sim');
+        }else{
+          elemento.value = 'não';
+          gravaBarras(avaliacao,tabela,item, 'não');
+        }
+      }
 
+    
       function tabelaMudancaNiveis(rota){
         //alert(rota)
         var avaliacao = '<%=avaliacao.id_avaliacao%>'
@@ -2946,7 +2957,7 @@
                             
 
                             <div class="imagem text-center">   
-                              <img  src="images/elevadores.png"  alt="Rampas">    
+                              <img  src="images/elevador.jpeg" style="max-width:600px; width:auto"  alt="Elevadores">    
                             </div>
 
                             
@@ -4923,7 +4934,7 @@
                             <p> <%=i+1%>.<%=j%>.3 Elevadores existentes - Observe as seguintes características dos elevadores. Nivelamento do piso da cabina e do tipo de revestimento, portas, área de manobra para cadeiras de rodas, equipamentos no interior da cabina, botões de acionamento nos pavimentos, identificação dos pavimentos, existência de símbolo de acessibilidade. A seguir faça a pontuação de acordo com o que existe no local. </p>
 
                             <div class="imagem text-center">   
-                              <img  src="images/elevadores.png"  alt="Elevadores">    
+                              <img  src="images/elevador.jpeg" style="max-width:600px; width:auto"  alt="Elevadores">    
                             </div>
 
                             
@@ -5744,7 +5755,7 @@
                                   <tr>
                                     <th style="width: 50%" scope = "col"> Barras de apoio para o uso do vaso sanitário</th>
                                     <th class = "text-center" style="width: 25%" scope = "col">Ideais<br>Existentes</th>
-                                    <th class = "text-center" style="width: 25%" scope = "col">Atende as especificações</th>                                    
+                                    <th class = "text-center" style="width: 25%" scope = "col">Atende as especificações <br> Clique para definir</th>                                    
                                   </tr>
                                 </tread>
                                 <tbody>
@@ -5753,7 +5764,7 @@
                                     <td>Largura ideal</td>
                                     <td> A ≥ 90cm</td>        
                                                               
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','1a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','1a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','1a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Largura existente</td>
@@ -5764,7 +5775,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> B = E + 30cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','2a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','2a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','2a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -5774,7 +5785,7 @@
                                   <tr>
                                     <td>Distância da parede ideal</td>
                                     <td> C = a + 50cm - A</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','3a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','3a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','3a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Distância da parede existente</td>
@@ -5788,7 +5799,7 @@
                                   <tr>
                                     <td>Distância da parede até o vaso ideal</td>
                                     <td> D = 31cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','4a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','4a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','4a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Distância da parede até o vaso existente</td>
@@ -5798,7 +5809,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> E  = 43cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','5a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','5a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','5a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -5812,7 +5823,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> F  = 40cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','6a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','6a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','6a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -5826,7 +5837,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> G = máximo 1m</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-7a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','7a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','7a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-7a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','7a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -5840,7 +5851,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td>H = 80cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-8a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','8a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','8a')" readonly="true"  id="barra-<%=i+1%>.<%=j%>.1.2-8a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','8a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -5850,7 +5861,7 @@
                                   <tr>
                                     <td>Ideal com barra de apoio</td>
                                     <td>Sim</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-9a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','9a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','9a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-9a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','9a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Existente</td>
@@ -5864,7 +5875,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-10a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','10a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','10a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-10a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','10a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -5888,7 +5899,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-12a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','12a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','12a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-12a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','12a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -5912,7 +5923,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-14a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','14a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','14a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-14a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','14a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -5936,7 +5947,7 @@
                                   <tr>
                                     <td>Ideal: com barra de apoio</td>
                                     <td>Sim </td>                                  
-                                    <td rowspan = "6"> <br> <input id="barra-<%=i+1%>.<%=j%>.1.2-16a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','16a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "6"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','16a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.1.2-16a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.1.2','16a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Existente</td>
@@ -5999,7 +6010,7 @@
                                   <tr>
                                     <td>Largura ideal</td>
                                     <td> A ≥ 90cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','1a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','1a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','1a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Largura existente</td>
@@ -6009,7 +6020,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> B = E + 30cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','2a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','2a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','2a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -6019,7 +6030,7 @@
                                   <tr>
                                     <td>Distância da parede ideal</td>
                                     <td> C = a + 50cm - A</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','3a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','3a')" readonly="true"  id="barra-<%=i+1%>.<%=j%>.2.3-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','3a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Distância da parede existente</td>
@@ -6033,7 +6044,7 @@
                                   <tr>
                                     <td>Distância da parede até o vaso ideal</td>
                                     <td> D = 31cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','4a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','4a')" readonly="true"  id="barra-<%=i+1%>.<%=j%>.2.3-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','4a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Distância da parede até o vaso existente</td>
@@ -6043,7 +6054,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> E  = 43cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','5a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','5a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','5a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -6057,7 +6068,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> F  = 40cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','6a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','6a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','6a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -6071,7 +6082,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td> G = máximo 1m</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-7a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','7a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','7a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-7a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','7a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -6085,7 +6096,7 @@
                                   <tr>
                                     <td>Altura ideal</td>
                                     <td>H = 80cm</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-8a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','8a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','8a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-8a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','8a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura existente</td>
@@ -6095,7 +6106,7 @@
                                   <tr>
                                     <td>Ideal com barra de apoio</td>
                                     <td>Sim</td>                                  
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-9a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','9a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','9a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-9a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','9a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Existente</td>
@@ -6109,7 +6120,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-10a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','10a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','10a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-10a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','10a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -6133,7 +6144,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-12a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','12a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','12a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-12a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','12a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -6157,7 +6168,7 @@
                                   <tr>
                                     <td>Profundidade ideal</td>
                                     <td>I ≥ 1,70m </td>                                  
-                                    <td rowspan = "4"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-14a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','14a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "4"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','14a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-14a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','14a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Profundidade existente</td>
@@ -6181,7 +6192,7 @@
                                   <tr>
                                     <td>Ideal: com barra de apoio</td>
                                     <td>Sim </td>                                  
-                                    <td rowspan = "6"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.3-16a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','16a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "6"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','16a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.3-16a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.3','16a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Existente</td>
@@ -6228,7 +6239,7 @@
                                   <tr>
                                     <td>Distância entre barras, ideal</td>
                                     <td> M = 80cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','1a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','1a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.4-1a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','1a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Distância entre barras, existente</td>
@@ -6238,7 +6249,7 @@
                                   <tr>
                                     <td>Tamanho de barra, ideal</td>
                                     <td> N ≥ 80cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','2a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','2a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.4-2a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','2a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Tamanho de barra, existente</td>
@@ -6248,7 +6259,7 @@
                                   <tr>
                                     <td>Altura do chão até o inicio da barra, ideal</td>
                                     <td> O = 70cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','3a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','3a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.4-3a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','3a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura do chão até o inicio da barra, existente</td>
@@ -6258,7 +6269,7 @@
                                   <tr>
                                     <td>Altura do mictório, ideal</td>
                                     <td> P = 46cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','4a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input  style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','4a')" readonly="true"id="barra-<%=i+1%>.<%=j%>.2.4-4a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','4a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
                                   <tr>
                                     <td>Altura do mictório, existente</td>
@@ -6268,7 +6279,7 @@
                                   <tr>
                                     <td>Profundidade do espaço para circulação, ideal</td>
                                     <td> Q ≥ 110cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','5a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','5a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.4-5a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','5a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
 
                                   <tr>
@@ -6279,7 +6290,7 @@
                                   <tr>
                                     <td>Largura do espaço para circulação, ideal</td>
                                     <td> R ≥ 80cm</td>                                                                      
-                                    <td rowspan = "2"> <br> <input id="barra-<%=i+1%>.<%=j%>.2.4-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','6a', this.value)"  type="text" class="form-control text-center" ></td>
+                                    <td rowspan = "2"> <br> <input style="cursor:pointer;" onclick = "especificacoesBanheiro('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','6a')" readonly="true" id="barra-<%=i+1%>.<%=j%>.2.4-6a" onchange = "gravaBarras('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2.4','6a', this.value)"  type="text" class="form-control text-center" ></td>
                                   </tr>
 
                                   <tr>
