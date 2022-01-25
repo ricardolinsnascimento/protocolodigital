@@ -309,6 +309,11 @@ function usuariosDAO(connection){
 		conn.query(sql, callback); 
 	}
 
+	this.excluiPorta = function(dados, callback){		
+		var sql = "delete from  portas  where id_avaliacao = " + dados.id_avaliacao + " and porta = " + dados.porta + " and tipo_medida = '" + dados.tipo_medida + "'";
+		conn.query(sql, callback); 
+	}
+
 	this.gravaPorta = function(dados, callback){
 		var sql = "insert into portas (id_avaliacao, porta, tipo_medida, medida) values (" + dados.id_avaliacao + "," + dados.porta +  ",'" + dados.tipo_medida + "'," + dados.medida + ")";
 		conn.query(sql, callback); 

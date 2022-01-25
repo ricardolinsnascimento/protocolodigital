@@ -811,7 +811,7 @@ module.exports.carregaCorrimaoRampa = function(application, req, res){
 module.exports.gravaPorta = function(application, req, res){		
 	if (req.session.autorizado){		
 		var dados = req.query;		
-		//console.log(dados)
+		
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
 		var usuariosModel = new usuariosDAO(connection);
@@ -823,15 +823,28 @@ module.exports.gravaPorta = function(application, req, res){
 				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 			}else{
 				if (result.length > 0){
-					usuariosModel.atualizaPorta(dados, function(error,result){
-						connection.end();
-						if(error){														
-							console.log(error)	
-							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
-						}else{
-							res.send(result)
-						}
-					})
+					if (dados.medida){
+						usuariosModel.atualizaPorta(dados, function(error,result){
+							connection.end();
+							if(error){														
+								console.log(error)	
+								res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+							}else{
+								res.send(result)
+							}
+						})
+					}else{
+						usuariosModel.excluiPorta(dados, function(error,result){
+							connection.end();
+							if(error){														
+								console.log(error)	
+								res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+							}else{
+								res.send(result)
+							}
+						})
+					}
+					
 				}else{
 					
 					usuariosModel.gravaPorta(dados, function(error,result){						
