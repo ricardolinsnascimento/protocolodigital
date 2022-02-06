@@ -1,4 +1,5 @@
 const usuariosDAO = require('../models/usuariosDAO');
+const avaliacaoController = require('../controllers/avaliacao')
 
 const avaliacao = require('../routes/avaliacao');
 
@@ -400,7 +401,7 @@ module.exports.gravaPontos = function(application, req, res){
 							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 							
 						}else{						
-							application.app.controllers.avaliacao.atualizaTotal(application, req, res);
+							avaliacaoController.atualizaTotal(application, req, res);
 						}
 					})
 				}else{
@@ -410,7 +411,7 @@ module.exports.gravaPontos = function(application, req, res){
 							console.log(error)					
 							res.send("O sistema está indisponível no momento. tente novamente mais tarde")							
 						}else{							
-							application.app.controllers.avaliacao.atualizaTotal(application, req, res);
+							avaliacaoController.atualizaTotal(application, req, res);
 						}
 
 					})
