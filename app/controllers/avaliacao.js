@@ -364,6 +364,7 @@ module.exports.abreAvaliacao = function(application, req, res){
 								}
 							});
 						}else{
+							connection.end();
 							rotas = result;
 							res.render("avaliacao", {avaliacao:avaliacao, rotas:rotas, id_usuario: req.query.id_usuario, status:req.session.status, msg:{}, email:req.session.email_usuario, perfil:req.session.perfil})						
 						}

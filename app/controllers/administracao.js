@@ -129,7 +129,7 @@ module.exports.reativaUsuario = function(application, req, res){
                     console.log(error);
                     res.send("Houve um erro interno. Tente novamente mais tarde")
                 }else{                    
-                    var usuarios = result;				
+                    var usuarios = result;		
                   
                     res.send(result)
                 }

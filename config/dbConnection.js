@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 
 if (port == 3000){
 	var connMySQL = function(){
-		//console.log('Conexão com o BD foi estabelecida');
+		console.log('Conexão com o BD foi estabelecida');
 		return mysql.createConnection({ 
 			host:'localhost',
 			user: 'root',
@@ -14,7 +14,7 @@ if (port == 3000){
 	}
 }else{
 	var connMySQL = function(){
-		//console.log('Conexão com o BD Heroku');
+		console.log('Conexão com o BD Heroku');
 		return mysql.createConnection({ 
 			host: process.env.host,
 			user: process.env.user,
