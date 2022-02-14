@@ -385,7 +385,7 @@ function usuariosDAO(connection){
 	}
 
 	this.zeraPontosCorrimao = function(registro, callback){		
-		var sql = "update pontos set valor = 0 where id_avaliacao = " + registro.id_avaliacao + " and tabela = '" + registro.tabela + "' and item > 2";
+		var sql = "update pontos set pontos = 0 where id_avaliacao = " + registro.id_avaliacao + " and tabela = '" + registro.tabela + "' and item > 2";
 		conn.query(sql, callback); 
 	}
 

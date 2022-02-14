@@ -5730,7 +5730,9 @@
                         <div id="item<%=i+1%>_8" style="display:none">                 
                           <div class="row">
                             <div class="col-12"> 
-                              <p> <%=i+1%>.8 Equipamentos dos banheiros</p>
+                              <p> <a href="#fim_pagina_banheiros"> Fim da página (tabela de pontuação)</a> </p>
+
+                              <p id = "topo_pagina_banheiros"> <%=i+1%>.8 Equipamentos dos banheiros</p>
                               <p> <%=i+1%>.8.1 Banheiro feminino.</p>
                               <p> <%=i+1%>.8.1.1 Observe as três opções de desenhos de boxe para serem utilizados por pessoas que tenham deficiências físicas</p>
                               <p> Boxe 1: Contém vaso sanitário e pia adaptados. </p>
@@ -6350,6 +6352,8 @@
                                 </tbody>
                               </table>
 
+                              <a id = "fim_pagina_banheiros" href="#topo_pagina_banheiros"> Topo da página </a>
+
                             </div>
                           </div>
                         </div>
@@ -6362,15 +6366,15 @@
                               <p> <%=i+1%>.<%=j%>.1 Observe se os bebedouros possuem altura dupla de torneira e barras de apoio</p>
 
                               <div class="imagem text-center">   
-                                <img  src="images/Bebedouro 1.JPG"  alt="Bebedouros">    
+                                <img  src="images/Bebedouro1.png"  alt="Bebedouros">    
                               </div>
 
                               <div class="imagem text-center">   
-                                <img  src="images/Bebedouro 2.JPG"  alt="Bebedouros">    
+                                <img  src="images/Bebedouro2.png"  alt="Bebedouros">    
                               </div>
 
                               <div class="imagem text-center">   
-                                <img  src="images/Bebedouro 3.JPG"  alt="Bebedouros">    
+                                <img  src="images/Bebedouro3.png"  alt="Bebedouros">    
                               </div>
 
                               <p> <%=i+1%>.<%=j%>.2 Calcule a média ponderada dos pontos = (pontos X quantidade) / quantidade total</p>  
@@ -6382,60 +6386,63 @@
                                     <th class = "text-center" style="width: 10%" scope = "col">Pontos</th>
                                     <th class = "text-center"style="width: 20%" scope = "col">Quantidade de bebedouros</th>
                                     <th class = "text-center"style="width: 15%" scope = "col">Média dos pontos</th>
-                                    <th class = "text-center"style="width: 15%" scope = "col">Pontuação máxima</th>
+                                    <th class = "text-center"style="width: 15%" scope = "col">Pontuação máxima </th>
                                   </tr>
                                 </tread>
                                 <tbody>
                                   <tr>
-                                    <td> Possui dupla altura de torneiras </td>
-                                    <td class = "text-center"> 4 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-1" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',1, this.value)" >
-                                    </td>
-                                    <td class = "text-center" rowspan = "6"> Mp </td>
+                                    <td bgcolor="#ADD8E6"> Possui dupla altura de torneiras </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-1" value = "S">                                    
+                                    <td bgcolor="#ADD8E6" id="v<%=i+1%>.<%=j%>.2-1" class = "text-center"> 4 </td>
+                                    <td bgcolor="#ADD8E6" > <input id="<%=i+1%>.<%=j%>.2-1" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',1, this.value, 4, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#ADD8E6" class = "text-center" id="p<%=i+1%>.<%=j%>.2-1" > 0.00 </td>
                                     <td class = "text-center" rowspan = "6"> 10 </td>
                                   </tr>
                                   <tr>
-                                    <td> Não possui dupla altura de torneiras </td>
-                                    <td class = "text-center"> 0 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-2" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',2, this.value)"  >
-                                    </td>
+                                    <td bgcolor="#ADD8E6"> Não possui dupla altura de torneiras </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-2" value = "S">   
+                                    <td  bgcolor="#ADD8E6" id="v<%=i+1%>.<%=j%>.2-2" class = "text-center"> 0 </td>
+                                    <td bgcolor="#ADD8E6" > <input id="<%=i+1%>.<%=j%>.2-2" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',2, this.value, 0, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#ADD8E6" class = "text-center" id="p<%=i+1%>.<%=j%>.2-2" > 0.00 </td>
                                   </tr>
                                   <tr>
-                                    <td> Possui a base recuada </td>
-                                    <td class = "text-center"> 3 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-3" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',3, this.value)" >
-                                    </td>
+                                    <td bgcolor="#B0C4DE"> Possui a base recuada </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-3" value = "N">        
+                                    <td  bgcolor="#B0C4DE" id="v<%=i+1%>.<%=j%>.2-3" class = "text-center"> 3 </td>
+                                    <td bgcolor="#B0C4DE" > <input id="<%=i+1%>.<%=j%>.2-3" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',3, this.value, 3, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#B0C4DE" class = "text-center" id="p<%=i+1%>.<%=j%>.2-3" > 0.00 </td>
+                                   
                                   </tr>
                                   <tr>
-                                    <td> Não possui a base recuada </td>
-                                    <td class = "text-center"> 0 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-4" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',4, this.value)"  >
-                                    </td>
+                                    <td bgcolor="#B0C4DE"> Não possui a base recuada </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-4" value = "N">   
+                                    <td  bgcolor="#B0C4DE" id="v<%=i+1%>.<%=j%>.2-4" class = "text-center"> 0 </td>
+                                    <td bgcolor="#B0C4DE" > <input id="<%=i+1%>.<%=j%>.2-4" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',4, this.value, 0, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#B0C4DE" class = "text-center" id="p<%=i+1%>.<%=j%>.2-4" > 0.00 </td>
+                                        
+                                    
                                   </tr>
                                   <tr>
-                                    <td> Possui barras de apoio junto ao equipamento ou fixadas na parede </td>
-                                    <td class = "text-center"> 3 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-5" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',5, this.value)" >
-                                    </td>
+                                    <td bgcolor="#E0FFFF"> Possui barras de apoio junto ao equipamento ou fixadas na parede </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-5" value = "N">   
+                                    <td  bgcolor="#E0FFFF" id="v<%=i+1%>.<%=j%>.2-5" class = "text-center"> 3 </td>
+                                    <td bgcolor="#E0FFFF" > <input id="<%=i+1%>.<%=j%>.2-5" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',5, this.value, 3, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#E0FFFF" class = "text-center" id="p<%=i+1%>.<%=j%>.2-5" > 0.00 </td>
                                   </tr>
                                   <tr>
-                                    <td> Não possui barras de apoio junto ao equipamento ou fixadas na parede </td>
-                                    <td class = "text-center"> 0 </td>
-                                    <td> 
-                                      <input id="<%=i+1%>.<%=j%>.2-6" type="text" class="form-control text-center" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',6, this.value)" >
-                                    </td>
+                                    <td  bgcolor="#E0FFFF" > Não possui barras de apoio junto ao equipamento ou fixadas na parede </td>
+                                    <input readonly type="hidden"  id="s<%=i+1%>.<%=j%>.2-6" value = "N"> 
+                                    <td  bgcolor="#E0FFFF" id="v<%=i+1%>.<%=j%>.2-6" class = "text-center"> 0 </td>
+                                    <td bgcolor="#E0FFFF" > <input id="<%=i+1%>.<%=j%>.2-6" onchange = "gravaPontos('<%=avaliacao.id_avaliacao%>','<%=i+1%>.<%=j%>.2',6, this.value, 0, 'S', 6)"  type="text" class="form-control text-center" ></td>
+                                    <td bgcolor="#E0FFFF" class = "text-center" id="p<%=i+1%>.<%=j%>.2-6" > 0.00 </td>
+                                   
                                   </tr>
                                   <tr>
                                     <td>Total </td>
                                     <td class = "text-center">  </td>
-                                    <td> 
-                                      <input readonly id="<%=i+1%>.<%=j%>.2" type="text" class="form-control text-center" >
-                                    </td>
+                                    <td> <input readonly id="<%=i+1%>.<%=j%>.2" type="text" class="form-control text-center" > </td>
+                                    <td class = "text-center" id="p<%=i+1%>.<%=j%>.2"> 0.00 </td>
+
                                   </tr>
                                   
 

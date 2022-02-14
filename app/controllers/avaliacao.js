@@ -545,6 +545,7 @@ module.exports.gravaEspelhoEscada = function(application, req, res){
 	if (req.session.autorizado){		
 		var dados = req.query;		
 		//console.log(dados)
+		//console.log("Entrou no GravaEspelhoEscada")
 		dados.medida = dados.medida.replace(",", ".");		
 		var connection = application.config.dbConnection();
 		var usuariosModel = new usuariosDAO(connection);
@@ -1072,6 +1073,8 @@ module.exports.excluiCorrimaoRampa = function(application, req, res){
 
 module.exports.excluiEspelhoEscada = function(application, req, res){		
 	if (req.session.autorizado){
+
+		console.log("Entrou no ExcluiEspelhoEscada")
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
@@ -1141,6 +1144,7 @@ module.exports.tabelaMudancaNiveis = function(application, req, res){
 	if (req.session.autorizado){
 		
 		var registro = req.query;	
+		//console.log("Entrou no tabelaMudancaNiveis")
 		//console.log(registro)			
 		var connection = application.config.dbConnection();
 		var usuariosModel = new usuariosDAO(connection);
