@@ -464,7 +464,7 @@ module.exports.atualizaTotal = function(application, req, res){
 											console.log(error)		
 											res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 										}else{
-											res.send();									
+											res.send({});									
 										}
 									})
 
@@ -476,7 +476,7 @@ module.exports.atualizaTotal = function(application, req, res){
 											console.log(error)			
 											res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 										}else{
-											res.send();	
+											res.send({});	
 										}
 									})
 
@@ -563,7 +563,7 @@ module.exports.gravaEspelhoEscada = function(application, req, res){
 							console.log(error)	
 							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 						}else{
-							res.send(result)
+							res.send({})
 						}
 					})
 				}else{
@@ -574,7 +574,7 @@ module.exports.gravaEspelhoEscada = function(application, req, res){
 							console.log(error)	
 							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 						}else{
-							res.send(result)
+							res.send({})
 						}
 					})
 
@@ -1074,7 +1074,7 @@ module.exports.excluiCorrimaoRampa = function(application, req, res){
 module.exports.excluiEspelhoEscada = function(application, req, res){		
 	if (req.session.autorizado){
 
-		console.log("Entrou no ExcluiEspelhoEscada")
+		//console.log("Entrou no ExcluiEspelhoEscada")
 		
 		var registro = req.query;				
 		var connection = application.config.dbConnection();
@@ -1086,7 +1086,7 @@ module.exports.excluiEspelhoEscada = function(application, req, res){
 				console.log(error)	
 				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 			}else{				
-				res.send(result)						
+				res.send({})						
 			}
 		})
 		
@@ -1109,7 +1109,7 @@ module.exports.excluiRampa = function(application, req, res){
 				console.log(error)	
 				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 			}else{				
-				res.send(result)						
+				res.send({})						
 			}
 		})
 		
@@ -1131,7 +1131,7 @@ module.exports.zeraPontosCorrimao = function(application, req, res){
 				console.log(error)	
 				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 			}else{				
-				res.send(result)						
+				res.send({})						
 			}
 		})
 		

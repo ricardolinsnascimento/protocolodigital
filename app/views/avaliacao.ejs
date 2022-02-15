@@ -1391,6 +1391,7 @@
         }
             
       function pontosEscada(rota){
+        //console.log("Entrou em pontosEscada")
         var avaliacao = '<%=avaliacao.id_avaliacao%>'
         var cont_escadas_sim = 0; //contador de escadas que atendem aos requisitos de acessibilidade
         var cont_escadas_nao = 0; //contador de escadas que não atendem aos requisitos
@@ -1447,15 +1448,21 @@
         //console.log("escadas_sim:" + cont_escadas_sim)
         //console.log("escadas_nao:" + cont_escadas_nao)
         //console.log("rota:" + rota)
-        switch(rota){
-          case '1': 
-           
-            document.getElementById("1.7.1.6-1").value = cont_escadas_sim;
-            gravaPontos(avaliacao,'1.7.1.6',1, cont_escadas_sim, 2, 'S', 6)
-            document.getElementById("1.7.1.6-2").value = cont_escadas_nao;
-            gravaPontos(avaliacao,'1.7.1.6',2, cont_escadas_nao, 0, 'S', 6)
-           break;
-        }
+       if (rota == '1'){
+        document.getElementById("1.7.1.6-1").value = cont_escadas_sim;
+        gravaPontos(avaliacao,'1.7.1.6',1, cont_escadas_sim, 2, 'S', 6)
+        document.getElementById("1.7.1.6-2").value = cont_escadas_nao;
+        gravaPontos(avaliacao,'1.7.1.6',2, cont_escadas_nao, 0, 'S', 6)
+
+       }else{
+        document.getElementById(rota +  ".6.1.6-1").value = cont_escadas_sim;
+        gravaPontos(avaliacao, rota + '.6.1.6',1, cont_escadas_sim, 2, 'S', 6)
+        document.getElementById(rota +   ".6.1.6-2").value = cont_escadas_nao;
+        gravaPontos(avaliacao, rota + '.6.1.6',2, cont_escadas_nao, 0, 'S', 6)
+          
+       }
+         
+         
         
       }
 
@@ -1502,7 +1509,8 @@
               }else{
                 padraoE = false;
               }
-              if (parseFloat(document.getElementById('corrimao-'+rota+'-'+i+'-F').value) >= 3.5 && parseFloat(document.getElementById('corrimao-'+rota+'-'+i+'-F').value) <=4  ){
+              //console.log(parseFloat(document.getElementById('corrimao-'+rota+'-'+i+'-F').value.replace(',','.')))
+              if (parseFloat(document.getElementById('corrimao-'+rota+'-'+i+'-F').value.replace(',','.')) >= 3.5 && parseFloat(document.getElementById('corrimao-'+rota+'-'+i+'-F').value.replace(',','.')) <= 4  ){               
                 padraoF = true;
               }else{
                 padraoF = false;
@@ -1519,8 +1527,8 @@
               }
 
             }
-            switch(rota){
-              case '1':
+            //console.log("padraoA:" + padraoA + "| padraoB:" + padraoB + "| padraoC:" + padraoC + "| padraoD:" + padraoD + "| padraoE:" + padraoE + "| padraoF:" + padraoF )
+           if (rota == '1'){
                 //alert("entrou")
                 //console.log("Sem corrimao " + sem_corrimao)
                 document.getElementById("1.7.1.6-3").value = cont_dois_lados;
@@ -1531,10 +1539,20 @@
                 gravaPontos(avaliacao,'1.7.1.6',5, cont_fora_norma, 1, 'N', 6)
                 document.getElementById("1.7.1.6-6").value = sem_corrimao;
                 gravaPontos(avaliacao,'1.7.1.6',6, sem_corrimao, 0, 'N', 6)
-              break;
+              
+            }else{
+                document.getElementById(rota + ".6.1.6-3").value = cont_dois_lados;
+                gravaPontos(avaliacao,rota + '.6.1.6',3, cont_dois_lados, 3, 'N', 6)
+                document.getElementById(rota + ".6.1.6-4").value = cont_um_lado;
+                gravaPontos(avaliacao,rota + '.6.1.6',4, cont_um_lado, 2, 'N', 6)
+                document.getElementById(rota + ".6.1.6-5").value = cont_fora_norma;
+                gravaPontos(avaliacao,rota + '.6.1.6',5, cont_fora_norma, 1, 'N', 6)
+                document.getElementById(rota +  ".6.1.6-6").value = sem_corrimao;
+                gravaPontos(avaliacao,rota +  '.6.1.6',6, sem_corrimao, 0, 'N', 6)
             }    
           }
         }
+        
       }
     
       function pontosCorrimaoRampa(rota){
@@ -1544,6 +1562,8 @@
         var cont_fora_norma = 0;
         var sem_corrimao = 0;
        // alert(rota)
+
+       // alert("entrou")
 
         var padraoA, padraoB, padraoC, padraoD, padraoE, padraoF;
 
@@ -1583,6 +1603,7 @@
                 padraoF = false;
               }
 
+            
               if (padraoA && padraoB && padraoC && padraoD && padraoE & padraoF){
                 if (parseInt(document.getElementById('corrimaoRampa-'+rota+'-'+i+'-L').value) == 2){
                   cont_dois_lados++;
@@ -1594,8 +1615,7 @@
               }
 
             }
-            switch(rota){
-              case '1':
+            if (rota == '1'){
                 //alert("entrou")
                 document.getElementById("1.7.2.4-7").value = cont_dois_lados;
                 gravaPontos(avaliacao,'1.7.2.4',7, cont_dois_lados, 3, 'N', 10)
@@ -1604,12 +1624,24 @@
                 document.getElementById("1.7.2.4-9").value = cont_fora_norma;
                 gravaPontos(avaliacao,'1.7.2.4',9, cont_fora_norma, 1, 'N', 10)
                 document.getElementById("1.7.2.4-10").value = sem_corrimao;
-                gravaPontos(avaliacao,'1.7.2.4',10, sem_corrimao, 0, 'N', 10)
-              break;
-            }    
+                gravaPontos(avaliacao,'1.7.2.4',10, sem_corrimao, 0, 'N', 10)              
+            }else{
+              document.getElementById(rota + ".6.2.4-7").value = cont_dois_lados;
+                gravaPontos(avaliacao,rota + '.6.2.4',7, cont_dois_lados, 3, 'N', 10)
+                document.getElementById(rota + ".6.2.4-8").value = cont_um_lado;
+                gravaPontos(avaliacao,rota +  '.6.2.4',8, cont_um_lado, 2, 'N', 10)
+                document.getElementById(rota + ".6.2.4-9").value = cont_fora_norma;
+                gravaPontos(avaliacao,rota + '.6.2.4',9, cont_fora_norma, 1, 'N', 10)
+                document.getElementById(rota + ".6.2.4-10").value = sem_corrimao;
+                gravaPontos(avaliacao,rota + '.6.2.4',10, sem_corrimao, 0, 'N', 10)    
+
+            }
           }
         }
         //tabelaMudancaNiveis(rota);
+
+        console.log("padraoA:" + padraoA + "| padraoB:" + padraoB + "| padraoC:" + padraoC + "| padraoD:" + padraoD + "| padraoE:" + padraoE + "| padraoF:" + padraoF )
+
       }
 
       function pontosRampa(rota){
@@ -1641,8 +1673,7 @@
         cont_rampas = cont_rampa1 + cont_rampa2 + cont_rampa3 + cont_rampa4 + cont_rampa5 + cont_rampa6;
         document.getElementById("1.7.2.4").value = cont_rampas;
         //alert(cont_escadas_nao);
-        switch(rota){
-          case '1':
+        if (rota == '1'){
             document.getElementById("1.7.2.4-1").value = cont_rampa1;
             gravaPontos(avaliacao,'1.7.2.4',1, cont_rampa1, 7, 'S', 10)
             document.getElementById("1.7.2.4-2").value = cont_rampa2;
@@ -1654,8 +1685,21 @@
             document.getElementById("1.7.2.4-5").value = cont_rampa5;
             gravaPontos(avaliacao,'1.7.2.4',5, cont_rampa2, 7, 'S', 10)
             document.getElementById("1.7.2.4-6").value = cont_rampa6;
-            gravaPontos(avaliacao,'1.7.2.4',6, cont_rampa2, 5, 'S', 10)
-            break;
+            gravaPontos(avaliacao,'1.7.2.4',6, cont_rampa2, 5, 'S', 10)            
+        }else{
+          document.getElementById(rota + ".6.2.4-1").value = cont_rampa1;
+            gravaPontos(avaliacao,rota + '.6.2.4',1, cont_rampa1, 7, 'S', 10)
+            document.getElementById(rota + ".6.2.4-2").value = cont_rampa2;
+            gravaPontos(avaliacao,rota + '.6.2.4',2, cont_rampa2, 5, 'S', 10)
+            document.getElementById(rota + ".6.2.4-3").value = cont_rampa3;
+            gravaPontos(avaliacao,rota + '.6.2.4',3, cont_rampa2, 7, 'S', 10)
+            document.getElementById(rota + ".6.2.4-4").value = cont_rampa4;
+            gravaPontos(avaliacao,rota + '.6.2.4',4, cont_rampa2, 5, 'S', 10)
+            document.getElementById(rota + ".6.2.4-5").value = cont_rampa5;
+            gravaPontos(avaliacao,rota + '.6.2.4',5, cont_rampa2, 7, 'S', 10)
+            document.getElementById(rota + ".6.2.4-6").value = cont_rampa6;
+            gravaPontos(avaliacao,rota + '.6.2.4',6, cont_rampa2, 5, 'S', 10)
+
         }
         tabelaMudancaNiveis(rota);          
         
