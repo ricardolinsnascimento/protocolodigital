@@ -15,7 +15,8 @@ module.exports.incluiEscola = function(application, req, res){
 module.exports.escolas = function(application, req, res){	
 	if (req.session.autorizado){ 
 
-		nome_escola = '';		
+		nome_escola = '';	
+			
 		var pesquisa = {nome_escola:nome_escola}
 		
 		var connection = application.config.dbConnection();
