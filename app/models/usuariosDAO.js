@@ -160,6 +160,7 @@ function usuariosDAO(connection){
 
 	this.atualizaPontos = function(dados, callback){
 		var sql = "update pontos set pontos = " + dados.pontos + ", media = " + dados.media + " where id_avaliacao = " + dados.id_avaliacao + " and tabela = '" + dados.tabela + "' and item = " + dados.item;
+		//console.log(sql);
 		conn.query(sql, callback);
 	}
 
@@ -175,6 +176,7 @@ function usuariosDAO(connection){
 
 	this.somaTotal = function(dados, callback){
 		var sql = "select sum(pontos) as total from pontos where id_avaliacao = " + dados.id_avaliacao + " and tabela = '" + dados.tabela + "' and soma_total = 'S'";
+		//console.log(sql);
 		conn.query(sql, callback);
 	}
 
@@ -420,6 +422,26 @@ function usuariosDAO(connection){
 			var sql = "delete from pontos_total where id_avaliacao = " + registro.id_avaliacao + " and tabela = '" + registro.rota +".6.4'"; 
 		}
 		conn.query(sql, callback);
+	}
+
+	this.verificaBanheirosAcessiveis = function(dados, callback){		
+		var sql = "select * from banheiros_acessiveis where avaliacao = " + dados.id_avaliacao ;
+		conn.query(sql, callback); 
+	}
+	
+	this.atualizaBanheirosAcessiveis = function(dados, callback){		
+		var sql = "update banheiros_acessiveis set valor = '" + dados.valor  + "' where avaliacao = " + dados.id_avaliacao;
+		conn.query(sql, callback); 
+	}
+
+	this.gravaBanheirosAcessiveis = function(dados, callback){
+		var sql = "insert into banheiros_acessiveis (avaliacao, valor) values (" + dados.id_avaliacao + ",'" + dados.valor +  "')";
+		conn.query(sql, callback); 
+	}
+
+	this.carregaBanheirosAcessiveis = function(id_avaliacao, callback){
+		var sql = "select * from banheiros_acessiveis where avaliacao = " + id_avaliacao;
+		conn.query(sql, callback); 
 	}
 }
 

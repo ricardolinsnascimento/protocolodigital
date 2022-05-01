@@ -129,5 +129,15 @@ module.exports = function(application){
     application.get('/tabelaMudancaNiveis', function(req, res){         
         avaliacaoController.tabelaMudancaNiveis(application, req, res);
     });
-      
+
+    application.get('/gravaBanheirosAcessiveis', function(req, res){         
+        avaliacaoController.gravaBanheirosAcessiveis(application, req, res);
+    });
+
+    application.get('/carregaBanheirosAcessiveis', function(req, res){         
+        avaliacaoController.carregaBanheirosAcessiveis(application, req, res);
+    });
+
+    
+ 
 }

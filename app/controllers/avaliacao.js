@@ -383,7 +383,6 @@ module.exports.gravaPontos = function(application, req, res){
 	if (req.session.autorizado){
 		
 		var dados = req.query;
-		//console.log(dados)
 		
 		var connection = application.config.dbConnection();
 		var usuariosModel = new usuariosDAO(connection);
@@ -442,6 +441,7 @@ module.exports.atualizaTotal = function(application, req, res){
 				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
 			}else{
 				var pontos_total = result[0].total;
+				//console.log("Pontos_total: " + pontos_total);
 
 				usuariosModel.somaMediaTotal(dados, function(error,result){
 					if(error){			
@@ -1214,5 +1214,73 @@ module.exports.tabelaMudancaNiveis = function(application, req, res){
 		res.render("index", {validacao:{}, dadosForm:{},  email:{}});	
 	}
 }
+
+module.exports.gravaBanheirosAcessiveis = function(application, req, res){		
+	if (req.session.autorizado){		
+		var dados = req.query;		
+		var connection = application.config.dbConnection();
+		var usuariosModel = new usuariosDAO(connection);
+
+		usuariosModel.verificaBanheirosAcessiveis(dados, function(error,result){
+			if(error){			
+				connection.end();				
+				console.log(error)	
+				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+			}else{
+				if (result.length > 0){
+					usuariosModel.atualizaBanheirosAcessiveis(dados, function(error,result){
+						connection.end();
+						if(error){														
+							console.log(error)	
+							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+						}else{
+							res.send(result)
+						}
+					})
+				}else{					
+					usuariosModel.gravaBanheirosAcessiveis(dados, function(error,result){						
+						connection.end();	
+						if(error){													
+							console.log(error)	
+							res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+						}else{
+							res.send(result)
+						}
+					})
+
+				}
+			}
+		})
+
+	}else{
+		res.render("index", {validacao:{}, dadosForm:{},  email:{}});	
+	}
+}
+
+module.exports.carregaBanheirosAcessiveis = function(application, req, res){		
+	if (req.session.autorizado){
+		
+		var id_avaliacao = req.query.id_avaliacao;				
+		var connection = application.config.dbConnection();
+		var usuariosModel = new usuariosDAO(connection);
+
+		usuariosModel.carregaBanheirosAcessiveis(id_avaliacao, function(error,result){
+			connection.end();
+			if(error){			
+				console.log(error)	
+				res.send("O sistema está indisponível no momento. tente novamente mais tarde")
+			}else{				
+				res.send(result)						
+			}
+		})
+		
+	}else{
+		res.render("index", {validacao:{}, dadosForm:{},  email:{}});	
+	}
+}
+
+
+
+
 
 
