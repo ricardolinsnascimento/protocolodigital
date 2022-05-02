@@ -17,6 +17,7 @@ module.exports.escolas = function(application, req, res){
 
 		nome_escola = '';	
 			
+			
 		var pesquisa = {nome_escola:nome_escola}
 		
 		var connection = application.config.dbConnection();
